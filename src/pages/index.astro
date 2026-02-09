@@ -89,26 +89,11 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	.text-gradient {
-		background-image: linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%); /* Default fallback */
-		background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%); /* Rich Orange-Yellow */
-		background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); /* Rich Blue-Cyan */
-		background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%); /* Rich Green */
-		background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Deep Purple */
-		background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%); /* Redish */
-		/* Let's go with a very rich, multi-stop gradient */
-		background-image: linear-gradient(
-			45deg,
-			#ca4246,
-			#e16541,
-			#f18f43,
-			#8b9862,
-			#476098,
-			#a7489b
-		);
+		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary), var(--c-primary));
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		animation: gradient-flow 15s ease infinite;
+		background-size: 200%;
+		animation: gradient-flow 6s ease infinite;
 	}
 
 	@keyframes gradient-flow {
@@ -141,27 +126,46 @@ import Layout from '../layouts/Layout.astro';
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.75rem 2rem;
+		padding: 0.75rem 2.5rem;
 		border-radius: var(--radius-btn);
 		text-decoration: none;
-		font-weight: 500;
-		transition: all 0.3s ease;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+		font-weight: 600;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		position: relative;
+		overflow: hidden;
+		z-index: 1;
 	}
-	
-	.btn:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+	.btn:active {
+		transform: scale(0.98);
 	}
 	
 	.btn-primary {
-		background: var(--c-brand);   /* Use brand color */
-		color: #ffffff;  /* White text */
+		color: #ffffff;
+		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+		box-shadow: 0 4px 15px rgba(56, 182, 255, 0.4);
+	}
+
+	.btn-primary::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(135deg, var(--c-secondary), var(--c-primary));
+		opacity: 0;
+		z-index: -1;
+		transition: opacity 0.3s ease;
 	}
 	
 	.btn-primary:hover {
-		opacity: 0.9;
-		background: var(--c-brand-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 8px 25px rgba(255, 107, 149, 0.5);
+	}
+
+	.btn-primary:hover::before {
+		opacity: 1;
 	}
 	
 	.btn-secondary {
@@ -172,13 +176,16 @@ import Layout from '../layouts/Layout.astro';
 	
 	.btn-secondary:hover {
 		background: var(--c-background);
-		border-color: rgba(0,0,0,0.1);
+		border-color: var(--c-primary-light);
+		color: var(--c-primary);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 	}
 	
 	.link-card-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 1.5rem;
+		gap: 2rem;
 		padding: 0;
 		width: 100%;
 		list-style: none;
@@ -191,11 +198,29 @@ import Layout from '../layouts/Layout.astro';
 		box-shadow: var(--shadow-light);
 		transition: transform 0.3s, box-shadow 0.3s;
 		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.5);
 	}
 	
+	.link-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 4px;
+		background: linear-gradient(90deg, var(--c-primary), var(--c-secondary));
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.3s ease;
+	}
+
 	.link-card:hover {
-		transform: translateY(-5px);
+		transform: translateY(-8px);
 		box-shadow: var(--shadow-hover);
+	}
+
+	.link-card:hover::before {
+		transform: scaleX(1);
 	}
 	
 	.link-card > a {
