@@ -2,11 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="欢迎来到 Astro">
+<Layout title="欢迎来到tan先生的blog">
 	<main>
 		<div class="content-wrapper">
 			<div class="hero">
-				<h1>欢迎来到 <span class="text-brand">Astro</span></h1>
+				<h1 class="calligraphy-title"><span class="text-gradient">欢迎来到tan先生的blog</span></h1>
 				<p class="subtitle">
 					探索宇宙般的极速开发体验。<br />
 					<strong>开始探索：</strong> 
@@ -82,23 +82,45 @@ import Layout from '../layouts/Layout.astro';
 		letter-spacing: -0.02em;
 	}
 	
-	.text-brand {
-		color: var(--c-text); /* Keep it dark */
-		position: relative;
-		display: inline-block;
-		font-weight: 800;
+	.calligraphy-title {
+		font-family: var(--font-special);
+		font-size: 4rem; /* Slightly larger for calligraphy */
+		font-weight: 400; /* Calligraphy looks better with normal weight usually */
 	}
-	
-	.text-brand::after {
-		content: '';
-		position: absolute;
-		bottom: 2px;
-		left: 0;
-		width: 100%;
-		height: 12px;
-		background: rgba(0, 0, 0, 0.06); /* Very subtle gray highlight */
-		z-index: -1;
-		border-radius: 4px;
+
+	.text-gradient {
+		background-image: linear-gradient(45deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%); /* Default fallback */
+		background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%); /* Rich Orange-Yellow */
+		background-image: linear-gradient(to right, #4facfe 0%, #00f2fe 100%); /* Rich Blue-Cyan */
+		background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%); /* Rich Green */
+		background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Deep Purple */
+		background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%); /* Redish */
+		/* Let's go with a very rich, multi-stop gradient */
+		background-image: linear-gradient(
+			45deg,
+			#ca4246,
+			#e16541,
+			#f18f43,
+			#8b9862,
+			#476098,
+			#a7489b
+		);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-size: 400%;
+		animation: gradient-flow 15s ease infinite;
+	}
+
+	@keyframes gradient-flow {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 	
 	.subtitle {
@@ -133,12 +155,13 @@ import Layout from '../layouts/Layout.astro';
 	}
 	
 	.btn-primary {
-		background: var(--c-text);   /* Use text color (Dark/Light) for button background */
-		color: var(--c-background);  /* Invert */
+		background: var(--c-brand);   /* Use brand color */
+		color: #ffffff;  /* White text */
 	}
 	
 	.btn-primary:hover {
 		opacity: 0.9;
+		background: var(--c-brand-dark);
 	}
 	
 	.btn-secondary {
