@@ -2,15 +2,31 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="欢迎来到tan先生的blog">
+<Layout title="欢迎来到言西早木的博客">
 	<main>
 		<div class="content-wrapper">
 			<div class="hero">
-				<h1 class="calligraphy-title"><span class="text-gradient">欢迎来到tan先生的blog</span></h1>
-				<p class="subtitle">
-					探索宇宙般的极速开发体验。<br />
-					<strong>开始探索：</strong> 
-				</p>
+				<h1 class="calligraphy-title"><span class="text-gradient">欢迎来到言西早木的博客</span></h1>
+				<div class="quote-container">
+					<p id="hitokoto-text" class="quote-text">正在聆听宇宙的低语...</p>
+					<p id="hitokoto-from" class="quote-author"></p>
+				</div>
+				<div class="hero-status">
+					<div class="status-item">
+						<span class="status-icon">📅</span>
+						<span id="hero-date">...</span>
+					</div>
+					<div class="status-divider"></div>
+					<div class="status-item">
+						<span class="status-icon">📍</span>
+						<span id="hero-region">...</span>
+					</div>
+					<div class="status-divider"></div>
+					<div class="status-item">
+						<span class="status-icon">🌡️</span>
+						<span id="hero-weather">...</span>
+					</div>
+				</div>
 				<div class="hero-actions">
 					<a href="/blog" class="btn btn-primary">开始阅读</a>
 					<a href="/about" class="btn btn-secondary">了解更多</a>
@@ -108,11 +124,74 @@ import Layout from '../layouts/Layout.astro';
 		}
 	}
 	
-	.subtitle {
+	.quote-container {
+		min-height: 80px;
+		margin-bottom: 2.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+	}
+
+	.quote-text {
+		color: var(--c-text);
+		font-size: 1.2rem;
+		font-weight: 300;
+		line-height: 1.6;
+		font-family: var(--font-family-base);
+		opacity: 0;
+		transform: translateY(10px);
+		transition: all 0.8s ease;
+	}
+
+	.quote-author {
 		color: var(--c-text-light);
-		font-size: 1.15rem;
+		font-size: 0.9rem;
+		font-style: italic;
+		opacity: 0;
+		transition: all 0.8s ease 0.2s;
+	}
+
+	.quote-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.hero-status {
+		display: inline-flex;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.4);
+		backdrop-filter: blur(10px);
+		padding: 0.5rem 1.5rem;
+		border-radius: 2rem;
+		border: 1px solid rgba(255, 255, 255, 0.3);
 		margin-bottom: 2rem;
-		line-height: 1.8;
+		gap: 1.2rem;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+	}
+
+	html[data-theme='dark'] .hero-status {
+		background: rgba(30, 31, 35, 0.4);
+		border-color: rgba(255, 255, 255, 0.05);
+	}
+
+	.status-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.9rem;
+		color: var(--c-text);
+	}
+
+	.status-divider {
+		width: 1px;
+		height: 15px;
+		background: rgba(0, 0, 0, 0.1);
+	}
+
+	html[data-theme='dark'] .status-divider {
+		background: rgba(255, 255, 255, 0.1);
 	}
 	
 	.hero-actions {
@@ -250,3 +329,55 @@ import Layout from '../layouts/Layout.astro';
 		line-height: 1.6;
 	}
 </style>
+
+<script is:inline>
+	async function updateQuote() {
+		const textEl = document.getElementById('hitokoto-text');
+		const fromEl = document.getElementById('hitokoto-from');
+		
+		try {
+			// Fade out
+			textEl.classList.remove('quote-visible');
+			fromEl.classList.remove('quote-visible');
+			
+			await new Promise(r => setTimeout(r, 800));
+			
+			const response = await fetch('https://v1.hitokoto.cn/');
+			const data = await response.json();
+			
+			textEl.textContent = data.hitokoto;
+			fromEl.textContent = `—— 「 ${data.from} 」`;
+			
+			// Fade in
+			textEl.classList.add('quote-visible');
+			fromEl.classList.add('quote-visible');
+		} catch (e) {
+			textEl.textContent = '纵使前路漫漫，亦要砥砺前行。';
+			fromEl.textContent = '—— 「 言西早木 」';
+			textEl.classList.add('quote-visible');
+		}
+	}
+
+	// Initial fetch
+	updateQuote();
+	// Rotate every 10 seconds
+	setInterval(updateQuote, 10000);
+
+	// Sync homepage status with layout status
+	function syncStatus() {
+		const hDate = document.getElementById('hero-date');
+		const hRegion = document.getElementById('hero-region');
+		const hWeather = document.getElementById('hero-weather');
+		
+		const gDate = document.getElementById('current-date');
+		const gRegion = document.getElementById('current-region');
+		const gWeather = document.getElementById('current-weather');
+		
+		if (hDate && gDate) hDate.textContent = gDate.textContent;
+		if (hRegion && gRegion) hRegion.textContent = gRegion.textContent;
+		if (hWeather && gWeather) hWeather.textContent = gWeather.textContent;
+	}
+
+	setTimeout(syncStatus, 500);
+	setInterval(syncStatus, 2000);
+</script>

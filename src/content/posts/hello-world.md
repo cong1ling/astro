@@ -2,7 +2,7 @@
 title: '你好，世界！'
 pubDate: 2024-02-09
 description: '这是在这个新主题下的第一篇博客文章。'
-author: 'Tan'
+author: '言西早木'
 image:
     url: 'https://docs.astro.build/assets/rose.webp'
     alt: 'Astro Rose'
