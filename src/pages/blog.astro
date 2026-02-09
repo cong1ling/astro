@@ -1,37 +1,31 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
 
 const allPosts = await getCollection('posts');
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<Layout title="文章 - Astro Blog">
+<Layout title="文章 - Astro Blog" description="言西早木的博客文章列表，分享技术、生活与灵感。">
 	<main>
 		<h1>我的 <span class="text-gradient">文章</span></h1>
 		<ul role="list" class="link-card-grid">
 			{sortedPosts.map((post) => (
-				<li class="link-card">
-					<a href={`/posts/${post.slug}`}>
-						<h2>{post.data.title} &rarr;</h2>
-						<p>
-							{post.data.description}
-						</p>
-                        <div class="meta">
-                            <span class="date">{post.data.pubDate.toLocaleDateString('zh-CN')}</span>
-                        </div>
-					</a>
-				</li>
+				<Card 
+					href={`/posts/${post.slug}`}
+					title={post.data.title}
+					body={post.data.description}
+					date={post.data.pubDate}
+				/>
 			))}
-            <!-- Fallback Static Cards if no posts (Optional, can remove) -->
-            {sortedPosts.length === 0 && (
-                <li class="link-card">
-                    <a href="#">
-                        <h2>暂无文章 &rarr;</h2>
-                        <p>请稍后再来查看。</p>
-                    </a>
-                </li>
-            )}
+			{sortedPosts.length === 0 && (
+				<Card 
+					href="#"
+					title="暂无文章"
+					body="请稍后再来查看。"
+				/>
+			)}
 		</ul>
 	</main>
 </Layout>
@@ -73,55 +67,4 @@ const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pu
 		padding: 0;
 		list-style: none;
 	}
-	
-	.link-card {
-		background: var(--c-card-bg);
-		border-radius: var(--radius-card);
-		box-shadow: var(--shadow-light);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-		overflow: hidden;
-	}
-	
-	.link-card:hover {
-		transform: translateY(-5px);
-		box-shadow: var(--shadow-hover);
-	}
-	
-	.link-card > a {
-		width: 100%;
-		text-decoration: none;
-		line-height: 1.5;
-		padding: var(--padding-card);
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		color: var(--c-text);
-	}
-	
-	h2 {
-		margin: 0;
-		font-size: 1.4rem;
-		margin-bottom: 0.8rem;
-		color: var(--c-text);
-		transition: color 0.3s;
-	}
-	
-	.link-card:hover h2 {
-		color: var(--c-brand);
-	}
-	
-	p {
-		margin: 0;
-        margin-bottom: 1rem;
-		color: var(--c-text-light);
-		font-size: 1rem;
-		line-height: 1.7;
-        flex-grow: 1;
-	}
-    
-    .meta {
-        font-size: 0.85rem;
-        color: var(--c-text-light);
-        margin-top: auto;
-    }
 </style>
