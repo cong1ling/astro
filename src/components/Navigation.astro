@@ -1,0 +1,57 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="nav">
+  <div class="nav-container">
+    <a href="/" class="logo">我的博客</a>
+    <ul class="nav-links">
+      <li><a href="/" class:list={[{ active: currentPath === '/' }]}>首页</a></li>
+      <li><a href="/blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>文章</a></li>
+      <li><a href="/about" class:list={[{ active: currentPath === '/about' }]}>关于</a></li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #0066cc;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: #666;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    color: #0066cc;
+    text-decoration: none;
+  }
+</style>

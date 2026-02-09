@@ -1,0 +1,163 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/" class="nav-brand">Astro <span>空间</span></a>
+				<div class="nav-links">
+					<a href="/">首页</a>
+					<a href="/blog">文章</a>
+					<a href="/about">关于</a>
+				</div>
+			</nav>
+		</header>
+		<slot />
+		
+		<!-- Live2D Widget -->
+		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+	</body>
+</html>
+<style is:global>
+	:root {
+		/* Soft Monochrome Palette */
+		--c-brand: #4a4a4a;        /* Soft Dark Gray */
+		--c-brand-light: #8b8b8b;
+		--c-brand-dark: #2c2c2c;
+		
+		--c-blue: #546e7a;         /* Desaturated Blue-Gray */
+		--c-text: #2c3e50;         /* Dark Slate for better readability than pure black */
+		--c-text-light: #7f8c8d;   /* Soft Gray */
+		--c-background: #fdfdfd;   /* Warm White */
+		--c-card-bg: #ffffff;
+		
+		--shadow-light: 0 4px 20px rgba(0, 0, 0, 0.04);
+		--shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+		
+		--radius-card: 12px;
+		--radius-btn: 24px;
+		
+		--padding-card: 1.5rem;
+		
+		/* Soft Serif for comfort, Sans for headers */
+		--font-family-base: 'Outfit', 'Noto Serif SC', -apple-system, system-ui, sans-serif;
+	}
+	
+	html[data-theme='dark'] {
+		--c-brand: #d1d1d1;
+		--c-brand-light: #a0a0a0;
+		--c-brand-dark: #ffffff;
+		
+		--c-text: #e0e0e0;         /* Soft White */
+		--c-text-light: #a0a0a0;
+		--c-background: #18191a;   /* Soft Black */
+		--c-card-bg: #242526;
+		
+		--shadow-light: 0 4px 20px rgba(0, 0, 0, 0.3);
+		--shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+	}
+	
+	html {
+		font-family: var(--font-family-base);
+		background: var(--c-background);
+		color: var(--c-text);
+		line-height: 1.7;          /* Increased line height for comfort */
+		transition: background 0.4s ease, color 0.4s ease;
+	}
+	
+	body {
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+		overflow-x: hidden;
+		background: var(--c-background);
+	}
+	
+	header {
+		padding: 0.5rem 1rem;
+		background: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(10px);
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+	}
+	
+	html[data-theme='dark'] header {
+		background: rgba(30, 30, 30, 0.8);
+	}
+
+	nav {
+		max-width: 1000px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		height: 3.125rem;
+	}
+	
+	.nav-brand {
+		font-family: 'Outfit', sans-serif;
+		font-weight: 700;
+		font-size: 1.5rem;
+		color: var(--c-text);
+		text-decoration: none;
+	}
+	
+	.nav-brand span {
+		color: var(--c-brand);
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 1.5rem;
+	}
+	
+	.nav-links a {
+		text-decoration: none;
+		color: var(--c-text-light);
+		font-weight: 500;
+		font-size: 0.9rem;
+		padding: 0.5rem 0.8rem;
+		border-radius: 0.5rem;
+		transition: all 0.2s;
+	}
+	
+	.nav-links a:hover {
+		color: var(--c-brand);
+		background: rgba(255, 122, 144, 0.1);
+	}
+
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+	* {
+		box-sizing: border-box;
+	}
+</style>
