@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="留言板 - Astro Blog" description="欢迎在留言板留下你的足迹，分享你的想法和建议。">
+	<main>
+		<h1>访客 <span class="text-gradient">留言板</span></h1>
+		<div class="guestbook-intro">
+			<p>💬 欢迎留下你的足迹！分享想法、建议或者只是打个招呼～</p>
+			<p class="hint">需要登录 GitHub 账号后才能留言哦</p>
+		</div>
+		<div class="giscus-wrapper">
+			<div class="giscus"></div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 2rem 1rem;
+		max-width: 800px;
+	}
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		line-height: 1.2;
+		margin-bottom: 2rem;
+		text-align: center;
+		color: var(--c-text);
+	}
+	h1 span {
+		position: relative;
+		display: inline-block;
+		z-index: 1;
+	}
+	h1 span::after {
+		content: '';
+		position: absolute;
+		bottom: 2px;
+		left: 0;
+		width: 100%;
+		height: 8px;
+		background: rgba(0,0,0,0.05);
+		z-index: -1;
+		border-radius: 4px;
+	}
+	.guestbook-intro {
+		background: var(--c-card-bg);
+		padding: 1.5rem 2rem;
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-light);
+		color: var(--c-text);
+		font-size: 1.1rem;
+		line-height: 1.8;
+		text-align: center;
+		margin-bottom: 2rem;
+	}
+	.guestbook-intro p {
+		margin: 0;
+	}
+	.guestbook-intro .hint {
+		font-size: 0.85rem;
+		color: var(--c-text-light);
+		margin-top: 0.5rem;
+	}
+	.giscus-wrapper {
+		background: var(--c-card-bg);
+		padding: 2rem;
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-light);
+	}
+</style>
+
+<script is:inline>
+	function loadGiscus() {
+		const container = document.querySelector('.giscus');
+		if (!container) return;
+
+		// Detect current theme
+		const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+		const script = document.createElement('script');
+		script.src = 'https://giscus.app/client.js';
+		script.setAttribute('data-repo', 'cong1ling/astro');
+		script.setAttribute('data-repo-id', 'R_kgDORLwLWQ');
+		script.setAttribute('data-category', 'General');
+		script.setAttribute('data-category-id', 'DIC_kwDORLwLWc4C2Hx4');
+		script.setAttribute('data-mapping', 'pathname');
+		script.setAttribute('data-strict', '0');
+		script.setAttribute('data-reactions-enabled', '1');
+		script.setAttribute('data-emit-metadata', '0');
+		script.setAttribute('data-input-position', 'top');
+		script.setAttribute('data-theme', isDark ? 'dark_tritanopia' : 'light');
+		script.setAttribute('data-lang', 'zh-CN');
+		script.setAttribute('data-loading', 'lazy');
+		script.crossOrigin = 'anonymous';
+		script.async = true;
+
+		container.appendChild(script);
+	}
+
+	// Sync Giscus theme when user toggles
+	function updateGiscusTheme() {
+		const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+		const iframe = document.querySelector('iframe.giscus-frame');
+		if (iframe) {
+			iframe.contentWindow.postMessage(
+				{ giscus: { setConfig: { theme: isDark ? 'dark_tritanopia' : 'light' } } },
+				'https://giscus.app'
+			);
+		}
+	}
+
+	// Observe theme changes
+	const observer = new MutationObserver(() => updateGiscusTheme());
+	observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+	loadGiscus();
+</script>
