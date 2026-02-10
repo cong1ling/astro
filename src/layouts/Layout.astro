@@ -57,6 +57,12 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 
 		<!-- Live2D Widget -->
 		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
+		
+		<!-- Live2D 独立工具栏 -->
+		<script is:inline src="/live2d-toolbar.js"></script>
+		
+		<!-- Live2D Custom Config -->
+		<script is:inline src="/live2d-custom-config.js"></script>
 
 		<script is:inline>
 			// Theme Logic
@@ -487,17 +493,140 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	}
 
 	.waifu-tool span {
-		background: rgba(255, 255, 255, 0.5) !important;
-		backdrop-filter: blur(5px) !important;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7)) !important;
+		backdrop-filter: blur(10px) saturate(180%) !important;
+		-webkit-backdrop-filter: blur(10px) saturate(180%) !important;
 		border-radius: 50% !important;
-		color: var(--c-primary) !important;
-		transition: all 0.3s ease !important;
+		color: #666 !important;
+		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+		width: 38px !important;
+		height: 38px !important;
+		display: inline-flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		margin: 5px !important;
+		font-size: 18px !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+		border: 1px solid rgba(255, 255, 255, 0.8) !important;
+		cursor: pointer !important;
+		position: relative !important;
+		overflow: hidden !important;
+	}
+
+	.waifu-tool span::before {
+		content: '' !important;
+		position: absolute !important;
+		top: 0 !important;
+		left: 0 !important;
+		width: 100% !important;
+		height: 100% !important;
+		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary)) !important;
+		opacity: 0 !important;
+		transition: opacity 0.4s ease !important;
+		border-radius: 50% !important;
+		z-index: -1 !important;
+	}
+
+	.waifu-tool span:hover::before {
+		opacity: 1 !important;
 	}
 
 	.waifu-tool span:hover {
-		background: var(--c-primary) !important;
 		color: white !important;
-		transform: scale(1.1);
+		transform: translateY(-3px) scale(1.1) !important;
+		box-shadow: 0 8px 20px rgba(56, 182, 255, 0.3), 0 4px 8px rgba(255, 107, 149, 0.2) !important;
+		border-color: rgba(255, 255, 255, 1) !important;
+	}
+
+	.waifu-tool span:active {
+		transform: translateY(-1px) scale(1.05) !important;
+		box-shadow: 0 4px 12px rgba(56, 182, 255, 0.2) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool span {
+		background: linear-gradient(135deg, rgba(40, 42, 46, 0.9), rgba(30, 31, 35, 0.8)) !important;
+		color: var(--c-primary-light) !important;
+		border-color: rgba(255, 255, 255, 0.1) !important;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool span:hover {
+		color: white !important;
+		border-color: rgba(255, 255, 255, 0.3) !important;
+		box-shadow: 0 8px 20px rgba(56, 182, 255, 0.4), 0 4px 8px rgba(255, 107, 149, 0.3) !important;
+	}
+
+	/* 工具栏容器优化 */
+	.waifu-tool {
+		display: flex !important;
+		flex-direction: row !important;
+		flex-wrap: wrap !important;
+		align-items: center !important;
+		justify-content: center !important;
+		gap: 2px !important;
+		padding: 8px 12px !important;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)) !important;
+		backdrop-filter: blur(15px) saturate(180%) !important;
+		-webkit-backdrop-filter: blur(15px) saturate(180%) !important;
+		border-radius: 25px !important;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+		border: 1px solid rgba(255, 255, 255, 0.5) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool {
+		background: linear-gradient(135deg, rgba(30, 31, 35, 0.6), rgba(20, 21, 25, 0.5)) !important;
+		border-color: rgba(255, 255, 255, 0.1) !important;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+	}
+
+	/* 按钮脉动动画（可选） */
+	@keyframes pulse-glow {
+		0%, 100% {
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+		}
+		50% {
+			box-shadow: 0 4px 16px rgba(56, 182, 255, 0.2), 0 2px 8px rgba(255, 107, 149, 0.15);
+		}
+	}
+
+	/* 为特定按钮添加特殊效果（可选） */
+	.waifu-tool span:nth-child(1) {
+		animation: pulse-glow 3s ease-in-out infinite;
+	}
+	.waifu-tool span:hover {
+		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary)) !important;
+		color: white !important;
+		transform: scale(1.15) rotate(5deg) !important;
+		box-shadow: 0 4px 12px rgba(56, 182, 255, 0.3) !important;
+	}
+
+	.waifu-tool span:active {
+		transform: scale(0.95) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool span {
+		background: rgba(30, 31, 35, 0.7) !important;
+		color: var(--c-primary-light) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool span:hover {
+		background: linear-gradient(135deg, var(--c-primary-dark), var(--c-secondary-dark)) !important;
+	}
+
+	/* 工具栏容器优化 */
+	.waifu-tool {
+		display: flex !important;
+		flex-wrap: wrap !important;
+		gap: 4px !important;
+		padding: 8px !important;
+		background: rgba(255, 255, 255, 0.3) !important;
+		backdrop-filter: blur(10px) !important;
+		border-radius: 20px !important;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	html[data-theme='dark'] .waifu-tool {
+		background: rgba(30, 31, 35, 0.5) !important;
 	}
 
 	@media (max-width: 768px) {
