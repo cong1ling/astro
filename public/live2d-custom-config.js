@@ -3,6 +3,16 @@
 
 console.log('Live2D 自定义配置脚本已加载');
 
+// 初始化访问统计（立即执行，不等待）
+try {
+  if (!localStorage.getItem('visitCount')) {
+    localStorage.setItem('visitCount', '0');
+    console.log('访问统计已初始化');
+  }
+} catch (e) {
+  console.log('无法初始化访问统计:', e);
+}
+
 // 等待 Live2D 加载完成
 window.addEventListener('load', () => {
   console.log('页面加载完成，准备初始化自定义配置');
@@ -123,6 +133,7 @@ function showVisitCount() {
     let visitCount = parseInt(localStorage.getItem('visitCount') || '0');
     visitCount++;
     localStorage.setItem('visitCount', visitCount.toString());
+    console.log('访问次数已更新:', visitCount);
 
     let message = '';
     if (visitCount === 1) {
@@ -143,7 +154,7 @@ function showVisitCount() {
       window.showMessage(message, 6000);
     }, 12000);
   } catch (e) {
-    console.log('无法访问 localStorage');
+    console.log('无法访问 localStorage:', e);
   }
 }
 

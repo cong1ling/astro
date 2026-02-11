@@ -5,21 +5,42 @@ import Card from '../components/Card.astro';
 
 const allPosts = await getCollection('posts');
 const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 计算阅读时长（按每分钟200字计算）
+function calculateReadingTime(text: string): number {
+	const wordsPerMinute = 200;
+	const textLength = text ? text.replace(/<[^>]*>/g, '').length : 0;
+	return Math.ceil(textLength / wordsPerMinute);
+}
+
+// 为每篇文章计算阅读时长（使用描述或标题作为替代）
+const postsWithReadingTime = sortedPosts.map((post) => {
+	// 使用文章描述或标题作为文本源来计算阅读时长
+	const text = post.data.description || post.data.title || '';
+	const readingTime = calculateReadingTime(text);
+	
+	return {
+		...post,
+		readingTime
+	};
+});
 ---
 
 <Layout title="文章 - Astro Blog" description="言西早木的博客文章列表，分享技术、生活与灵感。">
 	<main>
 		<h1>我的 <span class="text-gradient">文章</span></h1>
 		<ul role="list" class="link-card-grid">
-			{sortedPosts.map((post) => (
+			{postsWithReadingTime.map((post) => (
 				<Card 
 					href={`/posts/${post.slug}`}
 					title={post.data.title}
 					body={post.data.description}
 					date={post.data.pubDate}
+					tags={post.data.tags}
+					readingTime={post.readingTime}
 				/>
 			))}
-			{sortedPosts.length === 0 && (
+			{postsWithReadingTime.length === 0 && (
 				<Card 
 					href="#"
 					title="暂无文章"

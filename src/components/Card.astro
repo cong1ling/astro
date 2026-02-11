@@ -4,19 +4,27 @@ interface Props {
 	href: string;
 	body?: string;
 	date?: Date;
+	tags?: string[];
+	readingTime?: number;
 	external?: boolean;
 }
 
-const { href, title, body, date, external = false } = Astro.props;
+const { href, title, body, date, tags, readingTime = 0, external = false } = Astro.props;
 ---
 
 <li class="link-card">
 	<a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}>
 		<h2>{title} &rarr;</h2>
-		{body && <p>{body}</p>}
-		{date && (
-			<div class="meta">
-				<span class="date">{date.toLocaleDateString('zh-CN')}</span>
+		{body && <p class="description">{body}</p>}
+		<div class="meta">
+			{date && <span class="date">{date.toLocaleDateString('zh-CN')}</span>}
+			{readingTime > 0 && <span class="reading-time">{readingTime} 分钟阅读</span>}
+		</div>
+		{tags && tags.length > 0 && (
+			<div class="tags">
+				{tags.map((tag) => (
+					<span class="tag">{tag}</span>
+				))}
 			</div>
 		)}
 	</a>
@@ -26,11 +34,13 @@ const { href, title, body, date, external = false } = Astro.props;
 	.link-card {
 		position: relative;
 		background: var(--c-card-bg);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
 		border-radius: var(--radius-card);
 		box-shadow: var(--shadow-light);
 		transition: transform 0.3s ease, box-shadow 0.3s ease;
 		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.5);
+		border: 1px solid var(--c-card-border);
 		list-style: none;
 	}
 	
@@ -50,10 +60,28 @@ const { href, title, body, date, external = false } = Astro.props;
 	.link-card:hover {
 		transform: translateY(-5px);
 		box-shadow: var(--shadow-hover);
+		background: rgba(255, 255, 255, 0.7);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
+		border-color: rgba(255, 255, 255, 0.5);
 	}
 
 	.link-card:hover::before {
 		transform: scaleX(1);
+	}
+	
+	html[data-theme='dark'] .link-card {
+		background: var(--c-card-bg);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
+		border-color: var(--c-card-border);
+	}
+
+	html[data-theme='dark'] .link-card:hover {
+		background: rgba(40, 42, 46, 0.6);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
+		border-color: rgba(255, 255, 255, 0.15);
 	}
 	
 	.link-card > a {
@@ -79,18 +107,80 @@ const { href, title, body, date, external = false } = Astro.props;
 		color: var(--c-brand);
 	}
 	
-	p {
+	.description {
 		margin: 0;
 		margin-bottom: 1rem;
 		color: var(--c-text-light);
 		font-size: 1rem;
 		line-height: 1.7;
 		flex-grow: 1;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
     
 	.meta {
 		font-size: 0.85rem;
 		color: var(--c-text-light);
 		margin-top: auto;
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+
+	.date {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.date::before {
+		content: '📅';
+		font-size: 0.9rem;
+	}
+
+	.reading-time {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.reading-time::before {
+		content: '⏱️';
+		font-size: 0.9rem;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1rem;
+	}
+
+	.tag {
+		display: inline-block;
+		padding: 0.3rem 0.8rem;
+		background: rgba(56, 182, 255, 0.1);
+		color: var(--c-primary);
+		border-radius: 1rem;
+		font-size: 0.8rem;
+		font-weight: 500;
+		transition: all 0.3s ease;
+	}
+
+	.tag:hover {
+		background: rgba(56, 182, 255, 0.2);
+		transform: translateY(-2px);
+	}
+
+	html[data-theme='dark'] .tag {
+		background: rgba(56, 182, 255, 0.15);
+		color: var(--c-primary-light);
+	}
+
+	html[data-theme='dark'] .tag:hover {
+		background: rgba(56, 182, 255, 0.25);
 	}
 </style>

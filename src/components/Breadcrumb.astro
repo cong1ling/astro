@@ -1,0 +1,71 @@
+---
+interface Crumb {
+	label: string;
+	href?: string;
+}
+
+interface Props {
+	crumbs: Crumb[];
+}
+
+const { crumbs } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="面包屑导航">
+	<ol class="breadcrumb-list">
+		{crumbs.map((crumb, index) => (
+			<li class={`breadcrumb-item ${index === crumbs.length - 1 ? 'active' : ''}`}>
+				{crumb.href ? (
+					<a href={crumb.href} class="breadcrumb-link">
+						{crumb.label}
+					</a>
+				) : (
+					<span class="breadcrumb-current">{crumb.label}</span>
+				)}
+			</li>
+		))}
+	</ol>
+</nav>
+
+<style>
+	.breadcrumb {
+		margin-bottom: 2rem;
+	}
+
+	.breadcrumb-list {
+		display: flex;
+		align-items: center;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.breadcrumb-item {
+		display: flex;
+		align-items: center;
+		font-size: 0.9rem;
+	}
+
+	.breadcrumb-item:not(:last-child)::after {
+		content: '/';
+		margin-left: 0.5rem;
+		color: var(--c-text-light);
+	}
+
+	.breadcrumb-link {
+		color: var(--c-text-light);
+		text-decoration: none;
+		transition: color 0.2s ease;
+	}
+
+	.breadcrumb-link:hover {
+		color: var(--c-primary);
+	}
+
+	.breadcrumb-current {
+		color: var(--c-text);
+		font-weight: 500;
+	}
+</style>

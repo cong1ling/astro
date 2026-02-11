@@ -4,19 +4,29 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="关于我 - Astro Blog" description="关于言西早木，一个使用 Astro 构建的个人博客。分享技术、生活与灵感。">
 	<main>
-		<h1>关于 <span class="text-gradient">我</span></h1>
+		<h1>关于我</h1>
+		
 		<div class="content">
 			<p>
-				你好！这是一个使用 Astro 构建的个人博客，通过 Vibe Coding（Antigravity）辅助生成。
+				你好！我是<strong>言西早木</strong>，一名普通的大学生，也是一名热爱编程的 coder。
 			</p>
 			<p>
-				<strong>作者：</strong>言西早木
+				这个博客是我分享技术心得、学习笔记和生活感悟的地方。虽然我还在学习的路上，但我相信持续记录和分享能让成长更有意义。
 			</p>
 			<p>
-				<strong>GitHub：</strong><a href="https://github.com/cong1ling" target="_blank">cong1ling</a>
+				在这里，我记录学习的点滴，分享遇到的坑和解决方案。希望我的分享能对你有所帮助，也欢迎与我交流讨论！
 			</p>
+			
+			<h2>基本信息</h2>
 			<p>
-				在这里，我分享技术、生活与灵感。祝你在这里玩得开心！✨
+				<strong>身份：</strong>大学生 | Coder<br>
+				<strong>开发方式：</strong>使用 VibeCoding 辅助编程<br>
+				<strong>GitHub：</strong><a href="https://github.com/cong1ling" target="_blank">cong1ling</a><br>
+				<strong>邮箱：</strong><a href="mailto:tanshujian@linux.do,tanshujian131@qq.com">tanshujian@linux.do</a>
+			</p>
+			
+			<p class="quote">
+				"代码如诗，记录如酒。"
 			</p>
 		</div>
 	</main>
@@ -27,7 +37,12 @@ import Layout from '../layouts/Layout.astro';
 		margin: auto;
 		padding: 2rem 1rem;
 		max-width: 800px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
 	}
+	
 	h1 {
 		font-size: 2.5rem;
 		font-weight: 700;
@@ -36,32 +51,45 @@ import Layout from '../layouts/Layout.astro';
 		text-align: center;
 		color: var(--c-text);
 	}
-	h1 span {
-		position: relative;
-		display: inline-block;
-		z-index: 1;
+	
+	h2 {
+		font-size: 1.8rem;
+		font-weight: 600;
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+		color: var(--c-text);
 	}
-	h1 span::after {
-		content: '';
-		position: absolute;
-		bottom: 2px;
-		left: 0;
-		width: 100%;
-		height: 8px;
-		background: rgba(0,0,0,0.05);
-		z-index: -1;
-		border-radius: 4px;
-	}
+
+	/* 内容区域 */
 	.content {
-		background: var(--c-card-bg);
-		padding: 2rem;
-		border-radius: var(--radius-card);
-		box-shadow: var(--shadow-light);
 		color: var(--c-text-light);
 		font-size: 1.1rem;
 		line-height: 1.8;
 	}
+
 	p {
-		margin-bottom: 1rem;
+		margin-bottom: 1.5rem;
+	}
+
+	a {
+		color: var(--c-primary);
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	a:hover {
+		color: var(--c-secondary);
+	}
+
+	.quote {
+		text-align: center;
+		font-style: italic;
+		color: var(--c-text);
+		font-size: 1.2rem;
+		margin-top: 2rem;
+		padding: 1rem;
+		border-left: 3px solid var(--c-primary);
+		background: rgba(56, 182, 255, 0.05);
+		border-radius: 0 8px 8px 0;
 	}
 </style>

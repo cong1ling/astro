@@ -1,0 +1,256 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 - 页面不存在" description="抱歉，您访问的页面不存在或已被移除。">
+	<main>
+		<div class="error-container">
+			<div class="error-content">
+				<h1 class="error-code">404</h1>
+				<h2 class="error-title">页面不存在</h2>
+				<p class="error-message">
+					抱歉，您访问的页面不存在或已被移除。
+					<br>
+					可能是链接有误，或者页面已经被移动。
+				</p>
+				<div class="error-actions">
+					<a href="/" class="btn primary">返回首页</a>
+					<a href="/blog" class="btn secondary">浏览文章</a>
+				</div>
+			</div>
+			<div class="error-visual">
+				<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<circle cx="150" cy="150" r="140" fill="rgba(56, 182, 255, 0.1)"/>
+					<path d="M100 100L120 120M200 100L180 120M150 150C150 166.569 136.569 180 120 180C103.431 180 90 166.569 90 150C90 133.431 103.431 120 120 120C136.569 120 150 133.431 150 150Z" stroke="var(--c-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+					<path d="M150 210C150 221.046 141.046 230 130 230H120C108.954 230 100 221.046 100 210V200C100 188.954 108.954 180 120 180H130C141.046 180 150 188.954 150 200V210Z" fill="var(--c-primary)"/>
+				</svg>
+			</div>
+		</div>
+		
+		<div class="error-suggestions">
+			<h3>您可能想访问这些页面</h3>
+			<div class="suggestions-grid">
+				<a href="/" class="suggestion-card">
+					<span class="suggestion-icon">🏠</span>
+					<span class="suggestion-title">首页</span>
+				</a>
+				<a href="/blog" class="suggestion-card">
+					<span class="suggestion-icon">📝</span>
+					<span class="suggestion-title">文章列表</span>
+				</a>
+				<a href="/about" class="suggestion-card">
+					<span class="suggestion-icon">👤</span>
+					<span class="suggestion-title">关于我</span>
+				</a>
+				<a href="/friends" class="suggestion-card">
+					<span class="suggestion-icon">🔗</span>
+					<span class="suggestion-title">友链</span>
+				</a>
+			</div>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	main {
+		margin: auto;
+		padding: 2rem 1rem;
+		max-width: 1000px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+	}
+	
+	.error-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 3rem;
+		margin-bottom: 4rem;
+		padding: 4rem 2rem;
+		background: var(--c-card-bg);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-light);
+		border: 1px solid var(--c-card-border);
+	}
+	
+	@media (min-width: 768px) {
+		.error-container {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: left;
+		}
+	}
+	
+	.error-content {
+		flex: 1;
+		text-align: center;
+	}
+	
+	@media (min-width: 768px) {
+		.error-content {
+			text-align: left;
+		}
+	}
+	
+	.error-code {
+		font-size: 6rem;
+		font-weight: 700;
+		color: var(--c-primary);
+		margin: 0;
+		line-height: 1;
+		animation: pulse 2s ease-in-out infinite;
+	}
+	
+	.error-title {
+		font-size: 2.5rem;
+		font-weight: 600;
+		color: var(--c-text);
+		margin: 1rem 0;
+	}
+	
+	.error-message {
+		font-size: 1.1rem;
+		color: var(--c-text-light);
+		margin-bottom: 2rem;
+		line-height: 1.6;
+	}
+	
+	.error-actions {
+		display: flex;
+		gap: 1rem;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	
+	@media (min-width: 768px) {
+		.error-actions {
+			justify-content: flex-start;
+		}
+	}
+	
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.8rem 1.5rem;
+		border-radius: 8px;
+		font-size: 1rem;
+		font-weight: 500;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		border: 1px solid transparent;
+	}
+	
+	.btn.primary {
+		background: var(--c-primary);
+		color: white;
+	}
+	
+	.btn.primary:hover {
+		background: var(--c-primary-light);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-hover);
+	}
+	
+	.btn.secondary {
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		color: var(--c-text);
+		border-color: var(--c-card-border);
+	}
+	
+	.btn.secondary:hover {
+		background: rgba(255, 255, 255, 0.5);
+		transform: translateY(-2px);
+		box-shadow: var(--shadow-hover);
+	}
+	
+	html[data-theme='dark'] .btn.secondary {
+		background: rgba(30, 31, 35, 0.3);
+		border-color: var(--c-card-border);
+	}
+	
+	html[data-theme='dark'] .btn.secondary:hover {
+		background: rgba(40, 42, 46, 0.5);
+	}
+	
+	.error-visual {
+		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.error-suggestions {
+		text-align: center;
+		margin-top: 3rem;
+	}
+	
+	.error-suggestions h3 {
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: var(--c-text);
+		margin-bottom: 2rem;
+	}
+	
+	.suggestions-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		gap: 1.5rem;
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	
+	.suggestion-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		padding: 2rem 1rem;
+		background: var(--c-card-bg);
+		backdrop-filter: blur(8px) saturate(180%);
+		-webkit-backdrop-filter: blur(8px) saturate(180%);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-light);
+		border: 1px solid var(--c-card-border);
+		transition: all 0.3s ease;
+		text-decoration: none;
+		color: var(--c-text);
+	}
+	
+	.suggestion-card:hover {
+		transform: translateY(-5px);
+		box-shadow: var(--shadow-hover);
+		background: rgba(255, 255, 255, 0.5);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
+	}
+	
+	html[data-theme='dark'] .suggestion-card:hover {
+		background: rgba(40, 42, 46, 0.5);
+	}
+	
+	.suggestion-icon {
+		font-size: 2.5rem;
+	}
+	
+	.suggestion-title {
+		font-size: 1rem;
+		font-weight: 500;
+		color: var(--c-text);
+	}
+	
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.05);
+		}
+	}
+</style>

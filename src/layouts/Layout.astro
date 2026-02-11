@@ -27,6 +27,7 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 				<div class="nav-links">
 					<a href="/">首页</a>
 					<a href="/blog">文章</a>
+					<a href="/friends">友链</a>
 					<a href="/guestbook">留言</a>
 					<a href="/about">关于</a>
 				</div>
@@ -54,6 +55,13 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 				</div>
 			</div>
 		</footer>
+
+		<!-- 回到顶部按钮 -->
+		<button id="back-to-top" class="back-to-top" aria-label="回到顶部">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M18 15l-6-6-6 6"/>
+			</svg>
+		</button>
 
 		<!-- Live2D Widget -->
 		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
@@ -108,33 +116,62 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 				document.getElementById('current-date').textContent = now.toLocaleDateString('zh-CN', options);
 			}
 
+			let weatherRetryCount = 0;
+			const maxRetries = 3;
+			const fallbackWeather = {
+				region: '本地',
+				temp: '20',
+				desc: '晴'
+			};
+
 			async function updateWeather() {
 				const weatherEl = document.getElementById('current-weather');
 				const regionEl = document.getElementById('current-region');
+				
 				try {
-					// Use wttr.in with %l for location name
-					const response = await fetch('https://wttr.in/?format=%l|%c+%t&m');
+					const controller = new AbortController();
+					const timeoutId = setTimeout(() => controller.abort(), 5000);
+					
+					const response = await fetch('https://wttr.in/?format=j1', {
+						signal: controller.signal
+					});
+					
+					clearTimeout(timeoutId);
+					
 					if (response.ok) {
-						const text = await response.text();
-						const [region, weather] = text.split('|');
-						regionEl.textContent = region.trim() || '未知地区';
-						weatherEl.textContent = weather.trim();
+						const data = await response.json();
+						const current = data.current_condition[0];
+						const area = data.nearest_area[0];
 						
-						// Integration with Live2D (if available)
+						regionEl.textContent = area.areaName[0].value || '未知地区';
+						const temp = current.temp_C;
+						const weatherDesc = current.lang_zh[0]?.value || current.weatherDesc[0].value;
+						weatherEl.textContent = `${weatherDesc} ${temp}°C`;
+						
+						weatherRetryCount = 0;
+						
 						if (window.showMessage) {
-							if (weather.includes('Rain') || weather.includes('雨')) {
+							if (weatherDesc.includes('雨') || weatherDesc.includes('Rain')) {
 								window.showMessage('外面好像在下雨呢，记得带伞哦~', 5000);
-							} else if (weather.includes('Sun') || weather.includes('晴')) {
+							} else if (weatherDesc.includes('晴') || weatherDesc.includes('Sun')) {
 								window.showMessage('天气真好，一起去散步吧！', 5000);
 							}
 						}
 					} else {
-						weatherEl.textContent = '无法获取天气';
-						regionEl.textContent = '未知地区';
+						throw new Error(`HTTP ${response.status}`);
 					}
 				} catch (e) {
-					weatherEl.textContent = '天气离线';
-					regionEl.textContent = '定位离线';
+					console.log('天气API请求失败:', e.message);
+					
+					if (weatherRetryCount < maxRetries) {
+						weatherRetryCount++;
+						console.log(`天气API重试 ${weatherRetryCount}/${maxRetries}`);
+						setTimeout(updateWeather, 2000 * weatherRetryCount);
+					} else {
+						weatherEl.textContent = `${fallbackWeather.desc} ${fallbackWeather.temp}°C`;
+						regionEl.textContent = fallbackWeather.region;
+						weatherRetryCount = 0;
+					}
 				}
 			}
 
@@ -142,6 +179,26 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 			updateDate();
 			updateWeather();
 			setInterval(updateDate, 60000); // Update time every minute
+
+			// 回到顶部按钮逻辑
+			const backToTopBtn = document.getElementById('back-to-top');
+			
+			// 监听滚动事件
+			window.addEventListener('scroll', () => {
+				if (window.scrollY > 300) {
+					backToTopBtn.classList.add('visible');
+				} else {
+					backToTopBtn.classList.remove('visible');
+				}
+			});
+
+			// 点击回到顶部
+			backToTopBtn.addEventListener('click', () => {
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+			});
 		</script>
 	</body>
 </html>
@@ -170,12 +227,13 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		--c-bg-gradient-start: #f0f9ff;
 		--c-bg-gradient-end: #fff0f5;
 		--c-background: #ffffff;
-		--c-card-bg: rgba(255, 255, 255, 0.9);
+		--c-card-bg: rgba(255, 255, 255, 0.6);
+		--c-card-border: rgba(255, 255, 255, 0.3);
 		
 		--shadow-light: 0 4px 20px rgba(56, 182, 255, 0.1);
-		--shadow-hover: 0 10px 35px rgba(255, 107, 149, 0.2);
+		--shadow-hover: 0 10px 35px rgba(255, 107, 149, 0.15);
 		
-		--radius-card: 16px;
+		--radius-card: 20px;
 		--radius-btn: 50px;
 		
 		--padding-card: 1.8rem;
@@ -193,9 +251,10 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		--c-text: #e0e0e0;         /* Soft White */
 		--c-text-light: #a0a0a0;
 		--c-background: #0f1115;   /* Deeper Dreamy Black */
-		--c-card-bg: rgba(30, 31, 35, 0.7);
+		--c-card-bg: rgba(30, 31, 35, 0.5);
+		--c-card-border: rgba(255, 255, 255, 0.08);
 		
-		--shadow-light: 0 4px 25px rgba(0, 0, 0, 0.4);
+		--shadow-light: 0 4px 25px rgba(0, 0, 0, 0.3);
 		--shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
 	}
 	
@@ -272,14 +331,14 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	
 	header {
 		padding: 0.8rem 1.5rem;
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(12px) saturate(180%);
-		-webkit-backdrop-filter: blur(12px) saturate(180%);
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
 		position: sticky;
 		top: 0;
 		z-index: 100;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+		border-bottom: 1px solid var(--c-card-border);
 		transition: all 0.3s ease;
 	}
 
@@ -288,8 +347,10 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	}
 
 	.theme-toggle {
-		background: rgba(255, 255, 255, 0.5);
-		border: 1px solid rgba(0, 0, 0, 0.05);
+		background: rgba(255, 255, 255, 0.4);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border: 1px solid var(--c-card-border);
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
@@ -301,24 +362,30 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		margin-left: 0.5rem;
 		padding: 0;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 		overflow: hidden;
 		position: relative;
 	}
 
 	html[data-theme='dark'] .theme-toggle {
-		background: rgba(30, 31, 35, 0.6);
-		border-color: rgba(255, 255, 255, 0.1);
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+		background: rgba(30, 31, 35, 0.5);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border-color: var(--c-card-border);
+		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
 	}
 
 	.theme-toggle:hover {
 		transform: rotate(15deg) scale(1.1);
-		background: white;
+		background: rgba(255, 255, 255, 0.6);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 	}
 
 	html[data-theme='dark'] .theme-toggle:hover {
-		background: #242526;
+		background: rgba(40, 42, 46, 0.8);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 	}
 
 	.sun-icon { display: block; }
@@ -333,12 +400,12 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		font-size: 0.85rem;
 		color: var(--c-text-light);
 		padding-left: 1rem;
-		border-left: 1px solid rgba(0, 0, 0, 0.1);
+		border-left: 1px solid var(--c-card-border);
 		margin-left: 1rem;
 	}
 
 	html[data-theme='dark'] .header-status {
-		border-left-color: rgba(255, 255, 255, 0.1);
+		border-left-color: var(--c-card-border);
 	}
 
 	@media (max-width: 768px) {
@@ -348,8 +415,11 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	}
 
 	html[data-theme='dark'] header {
-		background: rgba(24, 25, 26, 0.4);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+		background: rgba(24, 25, 26, 0.3);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
+		border-bottom: 1px solid var(--c-card-border);
+		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
 	}
 
 	nav {
@@ -396,7 +466,10 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		position: relative;
 		overflow: hidden;
-		background: transparent;
+		background: rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid transparent;
 	}
 	
 	.nav-links a::before {
@@ -416,6 +489,11 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	.nav-links a:hover {
 		color: var(--c-primary-dark);
 		transform: translateY(-1px);
+		background: rgba(255, 255, 255, 0.4);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-color: var(--c-card-border);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 	}
 	
 	.nav-links a:hover::before {
@@ -427,9 +505,10 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	footer {
 		margin-top: auto;
 		padding: 1.5rem 1rem;
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(10px);
-		border-top: 1px solid rgba(255, 255, 255, 0.3);
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-top: 1px solid var(--c-card-border);
 		text-align: center;
 	}
 	
@@ -458,7 +537,30 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	.footer-links a:hover {
 		color: var(--c-brand);
 	}
-	
+
+	html[data-theme='dark'] .nav-links a {
+		background: rgba(30, 31, 35, 0.3);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		color: var(--c-text-light);
+	}
+
+	html[data-theme='dark'] .nav-links a:hover {
+		background: rgba(40, 42, 46, 0.6);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		color: var(--c-text);
+		border-color: var(--c-card-border);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+	}
+
+	html[data-theme='dark'] footer {
+		background: rgba(24, 25, 26, 0.3);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border-top: 1px solid var(--c-card-border);
+	}
+
 	code {
 		font-family:
 			Menlo,
@@ -638,6 +740,67 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		}
 	}
 	/* --- End Live2D Customization --- */
+
+	/* --- 回到顶部按钮 --- */
+	.back-to-top {
+		position: fixed;
+		bottom: 2rem;
+		right: 2rem;
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.4);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border: 1px solid var(--c-card-border);
+		color: var(--c-text);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		z-index: 999;
+	}
+
+	.back-to-top.visible {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.back-to-top:hover {
+		background: rgba(255, 255, 255, 0.6);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		transform: translateY(-3px);
+		box-shadow: 0 8px 25px rgba(56, 182, 255, 0.2);
+		color: var(--c-primary);
+	}
+
+	html[data-theme='dark'] .back-to-top {
+		background: rgba(30, 31, 35, 0.5);
+		border-color: var(--c-card-border);
+		color: var(--c-text);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+	}
+
+	html[data-theme='dark'] .back-to-top:hover {
+		background: rgba(40, 42, 46, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		color: var(--c-primary);
+		box-shadow: 0 8px 25px rgba(56, 182, 255, 0.3);
+	}
+
+	.back-to-top svg {
+		transition: transform 0.3s ease;
+	}
+
+	.back-to-top:hover svg {
+		transform: translateY(-2px);
+	}
 
 	* {
 		box-sizing: border-box;

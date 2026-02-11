@@ -19,12 +19,12 @@ import Layout from '../layouts/Layout.astro';
 					<div class="status-divider"></div>
 					<div class="status-item">
 						<span class="status-icon">📍</span>
-						<span id="hero-region">...</span>
+						<span id="hero-region">获取位置...</span>
 					</div>
 					<div class="status-divider"></div>
 					<div class="status-item">
 						<span class="status-icon">🌡️</span>
-						<span id="hero-weather">...</span>
+						<span id="hero-weather">获取天气...</span>
 					</div>
 				</div>
 				<div class="hero-actions">
@@ -51,18 +51,18 @@ import Layout from '../layouts/Layout.astro';
 					</a>
 				</li>
 				<li class="link-card">
-					<a href="https://astro.build/themes/">
-						<h2>主题库 &rarr;</h2>
+					<a href="/friends">
+						<h2>友情链接 &rarr;</h2>
 						<p>
-							探索社区构建的丰富主题库。
+							发现更多有趣的博客和网站。
 						</p>
 					</a>
 				</li>
 				<li class="link-card">
-					<a href="https://astro.build/chat/">
-						<h2>社区讨论 &rarr;</h2>
+					<a href="https://linux.do" target="_blank">
+						<h2>Linux.do 社区 &rarr;</h2>
 						<p>
-							加入我们充满活力的 Discord 社区。
+							重现互联网精神，加入我们充满活力的技术社区。
 						</p>
 					</a>
 				</li>
@@ -76,20 +76,24 @@ import Layout from '../layouts/Layout.astro';
 		margin: auto;
 		padding: 2rem 1rem;
 		max-width: 900px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
 	}
-	
+
 	.content-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		padding-top: 3rem;
 	}
-	
+
 	.hero {
 		text-align: center;
 		margin-bottom: 4rem;
 	}
-	
+
 	h1 {
 		font-size: 3.5rem;
 		font-weight: 700;
@@ -97,11 +101,11 @@ import Layout from '../layouts/Layout.astro';
 		margin-bottom: 1rem;
 		letter-spacing: -0.02em;
 	}
-	
+
 	.calligraphy-title {
 		font-family: var(--font-special);
-		font-size: 4rem; /* Slightly larger for calligraphy */
-		font-weight: 400; /* Calligraphy looks better with normal weight usually */
+		font-size: 4rem;
+		font-weight: 400;
 	}
 
 	.text-gradient {
@@ -109,21 +113,8 @@ import Layout from '../layouts/Layout.astro';
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
 		background-size: 200%;
-		animation: gradient-flow 6s ease infinite;
 	}
 
-	@keyframes gradient-flow {
-		0% {
-			background-position: 0% 50%;
-		}
-		50% {
-			background-position: 100% 50%;
-		}
-		100% {
-			background-position: 0% 50%;
-		}
-	}
-	
 	.quote-container {
 		min-height: 80px;
 		margin-bottom: 2.5rem;
@@ -140,40 +131,34 @@ import Layout from '../layouts/Layout.astro';
 		font-weight: 300;
 		line-height: 1.6;
 		font-family: var(--font-family-base);
-		opacity: 0;
-		transform: translateY(10px);
-		transition: all 0.8s ease;
 	}
 
 	.quote-author {
 		color: var(--c-text-light);
 		font-size: 0.9rem;
 		font-style: italic;
-		opacity: 0;
-		transition: all 0.8s ease 0.2s;
-	}
-
-	.quote-visible {
-		opacity: 1;
-		transform: translateY(0);
 	}
 
 	.hero-status {
 		display: inline-flex;
 		align-items: center;
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(10px);
+		background: rgba(255, 255, 255, 0.2);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
 		padding: 0.5rem 1.5rem;
 		border-radius: 2rem;
-		border: 1px solid rgba(255, 255, 255, 0.3);
+		border: 1px solid var(--c-card-border);
 		margin-bottom: 2rem;
 		gap: 1.2rem;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
 	}
 
 	html[data-theme='dark'] .hero-status {
-		background: rgba(30, 31, 35, 0.4);
-		border-color: rgba(255, 255, 255, 0.05);
+		background: rgba(30, 31, 35, 0.3);
+		backdrop-filter: blur(16px) saturate(180%);
+		-webkit-backdrop-filter: blur(16px) saturate(180%);
+		border-color: var(--c-card-border);
+		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
 	}
 
 	.status-item {
@@ -193,14 +178,14 @@ import Layout from '../layouts/Layout.astro';
 	html[data-theme='dark'] .status-divider {
 		background: rgba(255, 255, 255, 0.1);
 	}
-	
+
 	.hero-actions {
 		display: flex;
 		gap: 1rem;
 		justify-content: center;
 		margin-top: 2rem;
 	}
-	
+
 	.btn {
 		display: inline-flex;
 		align-items: center;
@@ -209,20 +194,23 @@ import Layout from '../layouts/Layout.astro';
 		border-radius: var(--radius-btn);
 		text-decoration: none;
 		font-weight: 600;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 		position: relative;
 		overflow: hidden;
 		z-index: 1;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border: 1px solid transparent;
 	}
 
 	.btn:active {
 		transform: scale(0.98);
 	}
-	
+
 	.btn-primary {
 		color: #ffffff;
 		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
 		box-shadow: 0 4px 15px rgba(56, 182, 255, 0.4);
+		border-color: rgba(255, 255, 255, 0.3);
 	}
 
 	.btn-primary::before {
@@ -235,32 +223,17 @@ import Layout from '../layouts/Layout.astro';
 		background: linear-gradient(135deg, var(--c-secondary), var(--c-primary));
 		opacity: 0;
 		z-index: -1;
-		transition: opacity 0.3s ease;
-	}
-	
-	.btn-primary:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 8px 25px rgba(255, 107, 149, 0.5);
 	}
 
-	.btn-primary:hover::before {
-		opacity: 1;
-	}
-	
 	.btn-secondary {
-		background: var(--c-card-bg);
+		background: rgba(255, 255, 255, 0.3);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
 		color: var(--c-text);
-		border: 1px solid rgba(0,0,0,0.05);
+		border: 1px solid var(--c-card-border);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 	}
-	
-	.btn-secondary:hover {
-		background: var(--c-background);
-		border-color: var(--c-primary-light);
-		color: var(--c-primary);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-	}
-	
+
 	.link-card-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -273,97 +246,119 @@ import Layout from '../layouts/Layout.astro';
 	.link-card {
 		position: relative;
 		background: var(--c-card-bg);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
 		border-radius: var(--radius-card);
 		box-shadow: var(--shadow-light);
-		transition: transform 0.3s, box-shadow 0.3s;
 		overflow: hidden;
-		border: 1px solid rgba(255, 255, 255, 0.5);
-	}
-	
-	.link-card::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 4px;
-		background: linear-gradient(90deg, var(--c-primary), var(--c-secondary));
-		transform: scaleX(0);
-		transform-origin: left;
-		transition: transform 0.3s ease;
+		border: 1px solid var(--c-card-border);
 	}
 
-	.link-card:hover {
-		transform: translateY(-8px);
-		box-shadow: var(--shadow-hover);
-	}
-
-	.link-card:hover::before {
-		transform: scaleX(1);
-	}
-	
 	.link-card > a {
 		display: block;
 		padding: var(--padding-card);
 		text-decoration: none;
 		color: var(--c-text);
 		height: 100%;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: pointer;
 	}
-	
+
 	.link-card h2 {
 		margin: 0;
 		font-size: 1.25rem;
 		margin-bottom: 0.5rem;
 		color: var(--c-text);
-		transition: color 0.3s;
 	}
-	
-	.link-card:hover h2 {
-		color: var(--c-brand);
-	}
-	
+
 	.link-card p {
 		margin: 0;
 		color: var(--c-text-light);
 		font-size: 0.95rem;
 		line-height: 1.6;
 	}
+
+	html[data-theme='dark'] .btn-secondary {
+		background: rgba(30, 31, 35, 0.4);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border-color: var(--c-card-border);
+		color: var(--c-text);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+	}
+
+	html[data-theme='dark'] .link-card {
+		background: var(--c-card-bg);
+		backdrop-filter: blur(12px) saturate(180%);
+		-webkit-backdrop-filter: blur(12px) saturate(180%);
+		border-color: var(--c-card-border);
+	}
+
+	html[data-theme='dark'] .link-card h2 {
+		color: var(--c-text);
+	}
+
+	html[data-theme='dark'] .link-card p {
+		color: var(--c-text-light);
+	}
 </style>
 
 <script is:inline>
+	// 一言API和状态同步
+	let quoteRetryCount = 0;
+	const maxQuoteRetries = 3;
+	const fallbackQuotes = [
+		{ text: '纵使前路漫漫，亦要砥砺前行。', from: '言西早木' },
+		{ text: '代码如诗，记录如酒。', from: '言西早木' },
+		{ text: '学习是一场永无止境的旅程。', from: '言西早木' },
+		{ text: '保持热爱，奔赴山海。', from: '言西早木' }
+	];
+
 	async function updateQuote() {
 		const textEl = document.getElementById('hitokoto-text');
 		const fromEl = document.getElementById('hitokoto-from');
 		
 		try {
-			// Fade out
-			textEl.classList.remove('quote-visible');
-			fromEl.classList.remove('quote-visible');
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 5000);
 			
-			await new Promise(r => setTimeout(r, 800));
+			const response = await fetch('https://v1.hitokoto.cn/', {
+				signal: controller.signal
+			});
 			
-			const response = await fetch('https://v1.hitokoto.cn/');
-			const data = await response.json();
+			clearTimeout(timeoutId);
 			
-			textEl.textContent = data.hitokoto;
-			fromEl.textContent = `—— 「 ${data.from} 」`;
-			
-			// Fade in
-			textEl.classList.add('quote-visible');
-			fromEl.classList.add('quote-visible');
+			if (response.ok) {
+				const data = await response.json();
+				
+				textEl.textContent = data.hitokoto;
+				fromEl.textContent = `—— 「 ${data.from} 」`;
+				
+				quoteRetryCount = 0;
+			} else {
+				throw new Error(`HTTP ${response.status}`);
+			}
 		} catch (e) {
-			textEl.textContent = '纵使前路漫漫，亦要砥砺前行。';
-			fromEl.textContent = '—— 「 言西早木 」';
-			textEl.classList.add('quote-visible');
+			console.log('一言API请求失败:', e.message);
+			
+			if (quoteRetryCount < maxQuoteRetries) {
+				quoteRetryCount++;
+				console.log(`一言API重试 ${quoteRetryCount}/${maxQuoteRetries}`);
+				setTimeout(updateQuote, 2000 * quoteRetryCount);
+				return;
+			}
+			
+			const fallback = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
+			textEl.textContent = fallback.text;
+			fromEl.textContent = `—— 「 ${fallback.from} 」`;
+			quoteRetryCount = 0;
 		}
 	}
 
-	// Initial fetch
-	updateQuote();
-	// Rotate every 10 seconds
-	setInterval(updateQuote, 10000);
-
-	// Sync homepage status with layout status
+	// 同步状态栏
 	function syncStatus() {
 		const hDate = document.getElementById('hero-date');
 		const hRegion = document.getElementById('hero-region');
@@ -378,6 +373,12 @@ import Layout from '../layouts/Layout.astro';
 		if (hWeather && gWeather) hWeather.textContent = gWeather.textContent;
 	}
 
+	// 初始加载
+	updateQuote();
+	// 每10秒更新一次
+	setInterval(updateQuote, 10000);
+
+	// 同步状态栏
 	setTimeout(syncStatus, 500);
 	setInterval(syncStatus, 2000);
 </script>

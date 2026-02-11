@@ -1,6 +1,6 @@
 ---
 title: '你好，世界！'
-pubDate: 2024-02-09
+pubDate: 2026-02-10
 description: '这是在这个新主题下的第一篇博客文章。'
 author: '言西早木'
 image:

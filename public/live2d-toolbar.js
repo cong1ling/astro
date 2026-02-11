@@ -94,6 +94,7 @@ function createCustomToolbar() {
         const count = localStorage.getItem('visitCount') || '0';
         const first = localStorage.getItem('firstVisit') || '未知';
         const message = `访问次数: ${count} 次<br>首次访问: ${first}`;
+        console.log('访问统计:', count, first);
         showTip(message);
       }
     }
