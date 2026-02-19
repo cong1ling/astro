@@ -32,8 +32,24 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 					<a href="/about">关于</a>
 				</div>
 				<button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
-					<span class="sun-icon">☀️</span>
-					<span class="moon-icon">🌙</span>
+					<span class="sun-icon">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<circle cx="12" cy="12" r="5"></circle>
+							<line x1="12" y1="1" x2="12" y2="3"></line>
+							<line x1="12" y1="21" x2="12" y2="23"></line>
+							<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+							<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+							<line x1="1" y1="12" x2="3" y2="12"></line>
+							<line x1="21" y1="12" x2="23" y2="12"></line>
+							<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+							<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+						</svg>
+					</span>
+					<span class="moon-icon">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+						</svg>
+					</span>
 				</button>
 				<div id="header-status" class="header-status">
 					<span id="current-date">加载中...</span>
@@ -204,66 +220,110 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 </html>
 <style is:global>
 	:root {
-		/* Vibrant Palette: Sky Blue & Pink */
-		--c-primary: #38b6ff;      /* Vivid Sky Blue */
-		--c-primary-light: #8ce1ff;
-		--c-primary-dark: #008ecc;
+		/* Professional, Human-Centric Palette */
+		--c-primary: #2563eb;      /* Royal Blue - Trustworthy, Professional */
+		--c-primary-light: #3b82f6;
+		--c-primary-dark: #1d4ed8;
 		
-		--c-secondary: #ff6b95;    /* Soft Hot Pink */
-		--c-secondary-light: #ff9eb9;
-		--c-secondary-dark: #cc4d6e;
+		--c-secondary: #dc2626;    /* Red - Energy, Attention */
+		--c-secondary-light: #ef4444;
+		--c-secondary-dark: #b91c1c;
 		
-		--c-tertiary: #a855f7;     /* Soft Purple */
-		--c-tertiary-light: #c084fc;
+		--c-accent: #059669;       /* Emerald Green - Growth, Success */
+		--c-accent-light: #10b981;
+		
+		--c-success: #10b981;      /* Green */
+		--c-warning: #d97706;      /* Amber */
+		--c-info: #0ea5e9;         /* Sky Blue */
 
 		--c-brand: var(--c-primary);
 		--c-brand-light: var(--c-primary-light);
 		--c-brand-dark: var(--c-primary-dark);
 		
-		--c-text: #2c3e50;         
-		--c-text-light: #7f8c8d;
+		--c-text: #0f172a;         /* Slate 900 - Deep, Readable */
+		--c-text-secondary: #475569; /* Slate 600 - Secondary Text */
+		--c-text-light: #64748b;   /* Slate 500 - Muted Text */
 		
-		/* Subtle mesh gradient background effect colors */
-		--c-bg-gradient-start: #f0f9ff;
-		--c-bg-gradient-end: #fff0f5;
 		--c-background: #ffffff;
-		--c-card-bg: rgba(255, 255, 255, 0.6);
-		--c-card-border: rgba(255, 255, 255, 0.3);
+		--c-surface: #f8fafc;      /* Slate 50 - Subtle Background */
+		--c-card-bg: rgba(255, 255, 255, 0.85);
+		--c-card-border: #e2e8f0;  /* Slate 200 - Clean Border */
 		
-		--shadow-light: 0 4px 20px rgba(56, 182, 255, 0.1);
-		--shadow-hover: 0 10px 35px rgba(255, 107, 149, 0.15);
+		--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+		--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+		--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		--shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+		--shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 		
-		--radius-card: 20px;
-		--radius-btn: 50px;
+		--radius-sm: 8px;
+		--radius-md: 12px;
+		--radius-lg: 16px;
+		--radius-xl: 20px;
+		--radius-2xl: 24px;
+		--radius-full: 9999px;
 		
-		--padding-card: 1.8rem;
+		--spacing-xs: 0.5rem;
+		--spacing-sm: 0.75rem;
+		--spacing-md: 1rem;
+		--spacing-lg: 1.5rem;
+		--spacing-xl: 2rem;
+		--spacing-2xl: 3rem;
 		
-		/* Soft Rounded Fonts */
-		--font-family-base: 'Comfortaa', 'Noto Sans SC', sans-serif;
+		/* Typography */
+		--font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', sans-serif;
+		--font-family-display: 'Inter', 'Noto Sans SC', sans-serif;
 		--font-special: 'Zhi Mang Xing', cursive;
+		
+		--font-size-xs: 0.75rem;
+		--font-size-sm: 0.875rem;
+		--font-size-base: 1rem;
+		--font-size-lg: 1.125rem;
+		--font-size-xl: 1.25rem;
+		--font-size-2xl: 1.5rem;
+		--font-size-3xl: 1.875rem;
+		--font-size-4xl: 2.25rem;
+		--font-size-5xl: 3rem;
 	}
 	
 	html[data-theme='dark'] {
-		--c-brand: #d1d1d1;
-		--c-brand-light: #a0a0a0;
-		--c-brand-dark: #ffffff;
+		--c-primary: #60a5fa;
+		--c-primary-light: #93c5fd;
+		--c-primary-dark: #3b82f6;
 		
-		--c-text: #e0e0e0;         /* Soft White */
-		--c-text-light: #a0a0a0;
-		--c-background: #0f1115;   /* Deeper Dreamy Black */
-		--c-card-bg: rgba(30, 31, 35, 0.5);
-		--c-card-border: rgba(255, 255, 255, 0.08);
+		--c-secondary: #f87171;
+		--c-secondary-light: #fca5a5;
+		--c-secondary-dark: #ef4444;
 		
-		--shadow-light: 0 4px 25px rgba(0, 0, 0, 0.3);
-		--shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+		--c-accent: #34d399;
+		--c-accent-light: #6ee7b7;
+		
+		--c-brand: var(--c-primary);
+		--c-brand-light: var(--c-primary-light);
+		--c-brand-dark: var(--c-primary-dark);
+		
+		--c-text: #f1f5f9;         /* Slate 100 */
+		--c-text-secondary: #cbd5e1; /* Slate 300 */
+		--c-text-light: #94a3b8;   /* Slate 400 */
+		
+		--c-background: #0f172a;   /* Slate 900 */
+		--c-surface: #1e293b;      /* Slate 800 */
+		--c-card-bg: rgba(30, 41, 59, 0.85);
+		--c-card-border: #475569;  /* Slate 600 */
+		
+		--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+		--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+		--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+		--shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+		--shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
 	}
 	
 	html {
 		font-family: var(--font-family-base);
 		background: var(--c-background);
 		color: var(--c-text);
-		line-height: 1.7;          /* Increased line height for comfort */
-		transition: background 0.4s ease, color 0.4s ease;
+		line-height: 1.6;
+		transition: background 0.3s ease, color 0.3s ease;
+		scroll-behavior: smooth;
 	}
 	
 	body {
@@ -272,20 +332,12 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		min-height: 100vh;
 		overflow-x: hidden;
 		background: var(--c-background);
-		/* Flexbox for sticky footer */
 		display: flex;
 		flex-direction: column;
-		/* Enhanced dreamy mesh gradient background */
-		background-image: 
-			radial-gradient(circle at 10% 20%, rgba(56, 182, 255, 0.12), transparent 30%), 
-			radial-gradient(circle at 90% 80%, rgba(255, 107, 149, 0.12), transparent 30%),
-			radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.1), transparent 45%),
-			radial-gradient(circle at 80% 10%, rgba(0, 200, 255, 0.05), transparent 25%),
-			radial-gradient(circle at 20% 90%, rgba(255, 107, 149, 0.05), transparent 25%);
-		background-attachment: fixed;
 		position: relative;
 	}
 
+	/* Light mode gradient background */
 	body::before {
 		content: '';
 		position: fixed;
@@ -294,52 +346,144 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		width: 100%;
 		height: 100%;
 		background: 
-			radial-gradient(circle at 20% 30%, rgba(56, 182, 255, 0.15), transparent 45%),
-			radial-gradient(circle at 80% 70%, rgba(255, 107, 149, 0.15), transparent 45%);
-		filter: blur(80px);
+			radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08), transparent 50%),
+			radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08), transparent 50%),
+			radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05), transparent 50%);
 		z-index: -2;
-		animation: floating-blobs-1 25s ease-in-out infinite alternate;
+		pointer-events: none;
 	}
 
 	body::after {
 		content: '';
 		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
 		background: 
-			radial-gradient(circle at 70% 20%, rgba(168, 85, 247, 0.1), transparent 45%),
-			radial-gradient(circle at 30% 80%, rgba(0, 200, 255, 0.1), transparent 45%);
-		filter: blur(100px);
+			radial-gradient(circle at 30% 40%, rgba(99, 102, 241, 0.06), transparent 40%),
+			radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.06), transparent 40%);
+		animation: rotate-gradient 30s linear infinite;
 		z-index: -1;
-		animation: floating-blobs-2 30s ease-in-out infinite alternate-reverse;
 		pointer-events: none;
 	}
 
-	@keyframes floating-blobs-1 {
-		0% { transform: translate(0, 0) rotate(0deg) scale(1); }
-		50% { transform: translate(3%, 5%) rotate(5deg) scale(1.1); }
-		100% { transform: translate(-2%, 2%) rotate(-5deg) scale(1.05); }
+	html[data-theme='dark'] body::before {
+		background: 
+			radial-gradient(circle at 20% 20%, rgba(129, 140, 248, 0.15), transparent 50%),
+			radial-gradient(circle at 80% 80%, rgba(244, 114, 182, 0.15), transparent 50%),
+			radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.1), transparent 50%);
 	}
 
-	@keyframes floating-blobs-2 {
-		0% { transform: translate(0, 0) rotate(0deg) scale(1.1); }
-		50% { transform: translate(-4%, -6%) rotate(-3deg) scale(1); }
-		100% { transform: translate(2%, -3%) rotate(3deg) scale(1.15); }
+	html[data-theme='dark'] body::after {
+		background: 
+			radial-gradient(circle at 30% 40%, rgba(129, 140, 248, 0.1), transparent 40%),
+			radial-gradient(circle at 70% 60%, rgba(244, 114, 182, 0.1), transparent 40%);
+	}
+
+	@keyframes rotate-gradient {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 	}
 	
 	header {
-		padding: 0.8rem 1.5rem;
-		background: rgba(255, 255, 255, 0.3);
-		backdrop-filter: blur(16px) saturate(180%);
-		-webkit-backdrop-filter: blur(16px) saturate(180%);
+		padding: 1rem 1.5rem;
+		background: rgba(255, 255, 255, 0.8);
+		backdrop-filter: blur(20px) saturate(180%);
+		-webkit-backdrop-filter: blur(20px) saturate(180%);
 		position: sticky;
 		top: 0;
 		z-index: 100;
-		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+		box-shadow: var(--shadow-sm);
 		border-bottom: 1px solid var(--c-card-border);
 		transition: all 0.3s ease;
+	}
+
+	html[data-theme='dark'] header {
+		background: rgba(15, 23, 42, 0.8);
+		border-bottom-color: var(--c-card-border);
+		box-shadow: var(--shadow-md);
+	}
+
+	nav {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 2rem;
+	}
+	
+	.nav-brand {
+		font-family: var(--font-family-display);
+		font-weight: 700;
+		font-size: var(--font-size-xl);
+		color: var(--c-text);
+		text-decoration: none;
+		letter-spacing: -0.02em;
+		transition: all 0.2s ease;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	
+	.nav-brand:hover {
+		transform: translateY(-1px);
+	}
+	
+	.nav-brand span {
+		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.nav-links {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+	
+	.nav-links a {
+		text-decoration: none;
+		color: var(--c-text-secondary);
+		font-weight: 500;
+		font-size: var(--font-size-sm);
+		padding: 0.5rem 1rem;
+		border-radius: var(--radius-full);
+		transition: all 0.2s ease;
+		position: relative;
+	}
+	
+	.nav-links a::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: var(--c-surface);
+		border-radius: var(--radius-full);
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		z-index: -1;
+	}
+	
+	.nav-links a:hover {
+		color: var(--c-primary);
+	}
+	
+	.nav-links a:hover::before {
+		opacity: 1;
+	}
+
+	html[data-theme='dark'] .nav-links a {
+		color: var(--c-text-secondary);
+	}
+
+	html[data-theme='dark'] .nav-links a::before {
+		background: var(--c-surface);
+	}
+
+	html[data-theme='dark'] .nav-links a:hover {
+		color: var(--c-primary-light);
 	}
 
 	.main-content {
@@ -347,45 +491,24 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	}
 
 	.theme-toggle {
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
+		background: var(--c-surface);
 		border: 1px solid var(--c-card-border);
-		width: 40px;
-		height: 40px;
-		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		border-radius: var(--radius-full);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: 1.2rem;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-		margin-left: 0.5rem;
+		font-size: 1.1rem;
+		transition: all 0.2s ease;
 		padding: 0;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-		overflow: hidden;
-		position: relative;
-	}
-
-	html[data-theme='dark'] .theme-toggle {
-		background: rgba(30, 31, 35, 0.5);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
-		border-color: var(--c-card-border);
-		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.theme-toggle:hover {
-		transform: rotate(15deg) scale(1.1);
-		background: rgba(255, 255, 255, 0.6);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-	}
-
-	html[data-theme='dark'] .theme-toggle:hover {
-		background: rgba(40, 42, 46, 0.8);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
+		transform: scale(1.05);
+		box-shadow: var(--shadow-md);
 	}
 
 	.sun-icon { display: block; }
@@ -397,129 +520,54 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	.header-status {
 		display: flex;
 		gap: 1rem;
-		font-size: 0.85rem;
+		font-size: var(--font-size-xs);
 		color: var(--c-text-light);
 		padding-left: 1rem;
 		border-left: 1px solid var(--c-card-border);
-		margin-left: 1rem;
-	}
-
-	html[data-theme='dark'] .header-status {
-		border-left-color: var(--c-card-border);
 	}
 
 	@media (max-width: 768px) {
 		.header-status {
-			display: none; /* Hide on small screens for cleaner layout */
+			display: none;
+		}
+		
+		nav {
+			gap: 1rem;
+		}
+		
+		.nav-links {
+			gap: 0.25rem;
+		}
+		
+		.nav-links a {
+			padding: 0.4rem 0.8rem;
+			font-size: var(--font-size-xs);
 		}
 	}
-
-	html[data-theme='dark'] header {
-		background: rgba(24, 25, 26, 0.3);
-		backdrop-filter: blur(16px) saturate(180%);
-		-webkit-backdrop-filter: blur(16px) saturate(180%);
-		border-bottom: 1px solid var(--c-card-border);
-		box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
-	}
-
-	nav {
-		max-width: 1100px;
-		margin: 0 auto;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 3.5rem;
-	}
-	
-	.nav-brand {
-		font-family: 'Outfit', sans-serif;
-		font-weight: 800;
-		font-size: 1.6rem;
-		color: var(--c-text);
-		text-decoration: none;
-		letter-spacing: -0.02em;
-		transition: transform 0.2s;
-	}
-	
-	.nav-brand:hover {
-		transform: scale(1.02);
-	}
-	
-	.nav-brand span {
-		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-	.nav-links {
-		display: flex;
-		gap: 0.8rem;
-	}
-	
-	.nav-links a {
-		text-decoration: none;
-		color: var(--c-text-light);
-		font-weight: 600;
-		font-size: 0.95rem;
-		padding: 0.6rem 1.2rem;
-		border-radius: 2rem;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-		position: relative;
-		overflow: hidden;
-		background: rgba(255, 255, 255, 0.2);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		border: 1px solid transparent;
-	}
-	
-	.nav-links a::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(135deg, rgba(56, 182, 255, 0.1), rgba(255, 107, 149, 0.1));
-		transform: translateY(100%);
-		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-		z-index: -1;
-		border-radius: 2rem;
-	}
-	
-	.nav-links a:hover {
-		color: var(--c-primary-dark);
-		transform: translateY(-1px);
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border-color: var(--c-card-border);
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-	}
-	
-	.nav-links a:hover::before {
-		transform: translateY(0);
-	}
-
-
 	
 	footer {
 		margin-top: auto;
-		padding: 1.5rem 1rem;
-		background: rgba(255, 255, 255, 0.3);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
+		padding: 2rem 1rem;
+		background: rgba(255, 255, 255, 0.6);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 		border-top: 1px solid var(--c-card-border);
 		text-align: center;
 	}
+
+	html[data-theme='dark'] footer {
+		background: rgba(15, 23, 42, 0.6);
+	}
 	
 	.footer-content {
-		max-width: 1000px;
+		max-width: 1200px;
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		color: var(--c-text-light);
 		gap: 1rem;
+		font-size: var(--font-size-sm);
 	}
 	
 	.footer-links {
@@ -530,35 +578,11 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	.footer-links a {
 		color: var(--c-text-light);
 		text-decoration: none;
-		font-size: 0.9rem;
-		transition: color 0.2s;
+		transition: color 0.2s ease;
 	}
 	
 	.footer-links a:hover {
-		color: var(--c-brand);
-	}
-
-	html[data-theme='dark'] .nav-links a {
-		background: rgba(30, 31, 35, 0.3);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		color: var(--c-text-light);
-	}
-
-	html[data-theme='dark'] .nav-links a:hover {
-		background: rgba(40, 42, 46, 0.6);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		color: var(--c-text);
-		border-color: var(--c-card-border);
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-	}
-
-	html[data-theme='dark'] footer {
-		background: rgba(24, 25, 26, 0.3);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		border-top: 1px solid var(--c-card-border);
+		color: var(--c-primary);
 	}
 
 	code {
@@ -746,22 +770,22 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		position: fixed;
 		bottom: 2rem;
 		right: 2rem;
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.4);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
+		width: 48px;
+		height: 48px;
+		border-radius: var(--radius-full);
+		background: var(--c-surface);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
 		border: 1px solid var(--c-card-border);
 		color: var(--c-text);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow-lg);
 		opacity: 0;
 		visibility: hidden;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		transition: all 0.3s ease;
 		z-index: 999;
 	}
 
@@ -771,27 +795,11 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 	}
 
 	.back-to-top:hover {
-		background: rgba(255, 255, 255, 0.6);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		transform: translateY(-3px);
-		box-shadow: 0 8px 25px rgba(56, 182, 255, 0.2);
-		color: var(--c-primary);
-	}
-
-	html[data-theme='dark'] .back-to-top {
-		background: rgba(30, 31, 35, 0.5);
-		border-color: var(--c-card-border);
-		color: var(--c-text);
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-	}
-
-	html[data-theme='dark'] .back-to-top:hover {
-		background: rgba(40, 42, 46, 0.7);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
-		color: var(--c-primary);
-		box-shadow: 0 8px 25px rgba(56, 182, 255, 0.3);
+		transform: translateY(-4px);
+		box-shadow: var(--shadow-xl);
+		background: var(--c-primary);
+		color: white;
+		border-color: var(--c-primary);
 	}
 
 	.back-to-top svg {

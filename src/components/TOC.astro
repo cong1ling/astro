@@ -103,4 +103,15 @@ const { headings } = Astro.props;
 			display: none;
 		}
 	}
+
+	.toc {
+		transition: all 0.3s ease;
+	}
+
+	.toc.hidden {
+		opacity: 0;
+		visibility: hidden;
+		transform: translateX(100%);
+		pointer-events: none;
+	}
 </style>
