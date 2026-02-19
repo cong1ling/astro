@@ -63,6 +63,25 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		</div>
 		<footer>
 			<div class="footer-content">
+				<div class="footer-stats">
+					<span class="stat-item">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+							<circle cx="12" cy="12" r="3"></circle>
+						</svg>
+						<span>本站总访问量 <span id="busuanzi_value_site_pv">加载中...</span> 次</span>
+					</span>
+					<span class="stat-divider">|</span>
+					<span class="stat-item">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+							<circle cx="9" cy="7" r="4"></circle>
+							<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+							<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+						</svg>
+						<span>访客数 <span id="busuanzi_value_site_uv">加载中...</span> 人</span>
+					</span>
+				</div>
 				<p>&copy; {new Date().getFullYear()} 言西早木的Blog. All rights reserved.</p>
 				<div class="footer-links">
 					<a href="/about">关于</a>
@@ -78,6 +97,9 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 				<path d="M18 15l-6-6-6 6"/>
 			</svg>
 		</button>
+
+		<!-- 不蒜子访问量统计 -->
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 		<!-- Live2D Widget -->
 		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
@@ -569,20 +591,66 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		gap: 1rem;
 		font-size: var(--font-size-sm);
 	}
-	
+
+	.footer-stats {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 0.5rem 1rem;
+		background: var(--c-surface);
+		border-radius: var(--radius-full);
+		border: 1px solid var(--c-card-border);
+	}
+
+	.stat-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--c-text-secondary);
+	}
+
+	.stat-item svg {
+		color: var(--c-primary);
+		flex-shrink: 0;
+	}
+
+	.stat-item span {
+		font-size: var(--font-size-xs);
+	}
+
+	.stat-item span span {
+		font-weight: 600;
+		color: var(--c-primary);
+	}
+
+	.stat-divider {
+		color: var(--c-card-border);
+	}
+
 	.footer-links {
 		display: flex;
 		gap: 1.5rem;
 	}
-	
+
 	.footer-links a {
 		color: var(--c-text-light);
 		text-decoration: none;
 		transition: color 0.2s ease;
 	}
-	
+
 	.footer-links a:hover {
 		color: var(--c-primary);
+	}
+
+	@media (max-width: 640px) {
+		.footer-stats {
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.stat-divider {
+			display: none;
+		}
 	}
 
 	code {
