@@ -143,6 +143,30 @@ import Layout from '../layouts/Layout.astro';
 						<p>重现互联网精神，加入充满活力的技术社区</p>
 						<div class="card-hover-effect"></div>
 					</a>
+
+					<div class="nav-card game-card" id="gameCard">
+						<div class="card-icon-wrapper">
+							<svg class="card-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<rect x="2" y="6" width="20" height="12" rx="2"></rect>
+								<circle cx="8" cy="12" r="2"></circle>
+								<line x1="14" y1="10" x2="14" y2="14"></line>
+								<line x1="12" y1="12" x2="16" y2="12"></line>
+							</svg>
+						</div>
+						<h3>小游戏</h3>
+						<p>点击展开游戏列表，放松一下</p>
+						<div class="card-hover-effect"></div>
+						<div class="game-dropdown" id="gameDropdown">
+							<a href="/games/shooter" class="game-item">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+									<circle cx="12" cy="12" r="10"></circle>
+									<circle cx="12" cy="12" r="6"></circle>
+									<circle cx="12" cy="12" r="2"></circle>
+								</svg>
+								<span>射击小游戏</span>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -526,6 +550,66 @@ import Layout from '../layouts/Layout.astro';
 			padding: 2rem 1rem;
 		}
 	}
+
+	/* 游戏卡片样式 */
+	.game-card {
+		position: relative;
+		cursor: pointer;
+		overflow: visible;
+	}
+
+	.game-dropdown {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		margin-top: 0.5rem;
+		background: var(--c-card-bg);
+		border: 1px solid var(--c-card-border);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-xl);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(-10px);
+		transition: all 0.3s ease;
+		z-index: 100;
+		overflow: hidden;
+	}
+
+	.game-dropdown.show {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0);
+	}
+
+	.game-item {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 1rem 1.25rem;
+		color: var(--c-text);
+		text-decoration: none;
+		transition: all 0.2s ease;
+		border-bottom: 1px solid var(--c-card-border);
+	}
+
+	.game-item:last-child {
+		border-bottom: none;
+	}
+
+	.game-item:hover {
+		background: var(--c-primary);
+		color: white;
+	}
+
+	.game-item svg {
+		flex-shrink: 0;
+	}
+
+	.game-item span {
+		font-size: var(--font-size-sm);
+		font-weight: 500;
+	}
 </style>
 
 <script is:inline>
@@ -602,6 +686,24 @@ import Layout from '../layouts/Layout.astro';
 			card.style.setProperty('--mouse-y', `${y}%`);
 		});
 	});
+
+	// 游戏卡片点击展开
+	const gameCard = document.getElementById('gameCard');
+	const gameDropdown = document.getElementById('gameDropdown');
+	
+	if (gameCard && gameDropdown) {
+		gameCard.addEventListener('click', (e) => {
+			if (e.target.closest('.game-item')) return;
+			e.stopPropagation();
+			gameDropdown.classList.toggle('show');
+		});
+
+		document.addEventListener('click', (e) => {
+			if (!gameCard.contains(e.target)) {
+				gameDropdown.classList.remove('show');
+			}
+		});
+	}
 
 	// 初始化
 	updateQuote();

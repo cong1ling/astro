@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="数字射击 - 言西早木的Blog" description="数字射击小游戏，使用WASD移动，空格射击">
+	<iframe 
+		src="/games/shooter/index.html" 
+		class="game-iframe"
+		title="数字射击游戏"
+		allowfullscreen
+	></iframe>
+</Layout>
+
+<style>
+	.game-iframe {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		border: none;
+		z-index: 9999;
+	}
+	
+	header, footer, .back-to-top {
+		display: none !important;
+	}
+</style>
