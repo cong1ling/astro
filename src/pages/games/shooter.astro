@@ -1,54 +1,20 @@
 ---
-import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="数字射击 - 言西早木的Blog" description="数字射击小游戏，使用WASD移动，空格射击">
-	<div class="game-container">
-		<div class="loading">
-			<div class="spinner"></div>
-			<p>游戏加载中...</p>
-		</div>
-	</div>
-</Layout>
-
-<style>
-	.game-container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		background: #141414;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 9999;
-	}
-	
-	.loading {
-		text-align: center;
-		color: #e8e8e8;
-	}
-	
-	.spinner {
-		width: 40px;
-		height: 40px;
-		border: 3px solid #2a2a2a;
-		border-top-color: #4a9eff;
-		border-radius: 50%;
-		animation: spin 1s linear infinite;
-		margin: 0 auto 1rem;
-	}
-	
-	@keyframes spin {
-		to { transform: rotate(360deg); }
-	}
-	
-	header, footer, .back-to-top {
-		display: none !important;
-	}
-</style>
-
-<script is:inline>
-	window.location.href = '/games/shooter/index.html';
-</script>
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数字射击 - 言西早木的Blog</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" crossorigin src="/games/shooter/assets/index-DFK4vwLQ.js"></script>
+    <link rel="stylesheet" href="/games/shooter/assets/index-Bp9HFyNC.css" />
+    <style>
+      @import"https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap";:root{--bg: #141414;--bg-elevated: #1c1c1c;--bg-hover: #242424;--text: #e8e8e8;--text-secondary: #888;--text-muted: #555;--accent: #4a9eff;--success: #5cb85c;--warning: #f0ad4e;--danger: #d9534f;--border: #2a2a2a}*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;background:var(--bg);color:var(--text);font-family:DM Sans,-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    </style>
+  </body>
+</html>
