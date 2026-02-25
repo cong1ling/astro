@@ -3,26 +3,52 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="数字射击 - 言西早木的Blog" description="数字射击小游戏，使用WASD移动，空格射击">
-	<iframe 
-		src="/games/shooter/index.html" 
-		class="game-iframe"
-		title="数字射击游戏"
-		allowfullscreen
-	></iframe>
+	<div class="game-container">
+		<div class="loading">
+			<div class="spinner"></div>
+			<p>游戏加载中...</p>
+		</div>
+	</div>
 </Layout>
 
 <style>
-	.game-iframe {
+	.game-container {
 		position: fixed;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
-		border: none;
+		background: #141414;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		z-index: 9999;
+	}
+	
+	.loading {
+		text-align: center;
+		color: #e8e8e8;
+	}
+	
+	.spinner {
+		width: 40px;
+		height: 40px;
+		border: 3px solid #2a2a2a;
+		border-top-color: #4a9eff;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+		margin: 0 auto 1rem;
+	}
+	
+	@keyframes spin {
+		to { transform: rotate(360deg); }
 	}
 	
 	header, footer, .back-to-top {
 		display: none !important;
 	}
 </style>
+
+<script is:inline>
+	window.location.href = '/games/shooter/index.html';
+</script>
