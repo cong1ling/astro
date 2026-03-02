@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="欢迎来到言西早木的博客">
+<Layout title="欢迎来到帷幄的博客">
 	<main>
 		<!-- 全屏沉浸式 Hero -->
 		<div class="immersive-hero">
@@ -13,18 +13,31 @@ import Layout from '../layouts/Layout.astro';
 			
 			<div class="hero-content-wrapper">
 				<div class="hero-avatar">
-					<img src="https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/preview.gif" alt="Avatar" />
+					<img src="https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/1772426717500-4io3hz.jpg" alt="Avatar" />
 					<div class="avatar-ring"></div>
 				</div>
 				
 				<h1 class="hero-title">
-					<span class="title-main">言西早木</span>
+					<span class="title-main">帷幄</span>
 					<span class="title-sub">Code · Life · Dream</span>
 				</h1>
 				
 				<div class="hero-description">
-					<p id="hitokoto-text">正在聆听宇宙的低语...</p>
-					<p id="hitokoto-from" class="hitokoto-source"></p>
+					<p id="hitokoto-text" class="artistic-quote">
+						<span class="quote-char">运</span>
+						<span class="quote-char">筹</span>
+						<span class="quote-char">帷</span>
+						<span class="quote-char">幄</span>
+						<span class="quote-char">之</span>
+						<span class="quote-char">中</span>
+						<span class="quote-char">，</span>
+						<span class="quote-char">决</span>
+						<span class="quote-char">胜</span>
+						<span class="quote-char">千</span>
+						<span class="quote-char">里</span>
+						<span class="quote-char">之</span>
+						<span class="quote-char">外</span>
+					</p>
 				</div>
 
 				<div class="hero-social">
@@ -198,7 +211,7 @@ import Layout from '../layouts/Layout.astro';
 	.hero-image-layer {
 		position: absolute;
 		inset: 0;
-		background: url("https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/樱花刀姬_水畔剪影.png") center/cover no-repeat;
+		background: url("https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/1772425306302-ly5qg9.png") center/cover no-repeat;
 		animation: ken-burns 30s ease-in-out infinite alternate;
 	}
 
@@ -212,16 +225,16 @@ import Layout from '../layouts/Layout.astro';
 		inset: 0;
 		background: linear-gradient(
 			135deg,
-			rgba(37, 99, 235, 0.85) 0%,
-			rgba(59, 130, 246, 0.85) 100%
+			rgba(0, 0, 0, 0.3) 0%,
+			rgba(0, 0, 0, 0.2) 100%
 		);
 	}
 
 	html[data-theme='dark'] .hero-gradient-overlay {
 		background: linear-gradient(
 			135deg,
-			rgba(37, 99, 235, 0.9) 0%,
-			rgba(59, 130, 246, 0.9) 100%
+			rgba(0, 0, 0, 0.4) 0%,
+			rgba(0, 0, 0, 0.3) 100%
 		);
 	}
 
@@ -310,9 +323,8 @@ import Layout from '../layouts/Layout.astro';
 
 	/* 描述 */
 	.hero-description {
-		max-width: 600px;
+		max-width: 800px;
 		margin: 0 auto 2rem;
-		font-size: var(--font-size-lg);
 		line-height: 1.8;
 	}
 
@@ -320,10 +332,63 @@ import Layout from '../layouts/Layout.astro';
 		margin: 0.5rem 0;
 	}
 
-	.hitokoto-source {
-		font-size: var(--font-size-sm);
-		opacity: 0.8;
-		font-style: italic;
+	/* 酷炫艺术字体 */
+	.artistic-quote {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.3rem;
+		font-family: 'STKaiti', 'KaiTi', '楷体', serif;
+		font-size: clamp(1.5rem, 4vw, 2.5rem);
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		perspective: 1000px;
+	}
+
+	.quote-char {
+		display: inline-block;
+		color: rgba(255, 255, 255, 0.95);
+		text-shadow: 
+			0 2px 4px rgba(0, 0, 0, 0.3),
+			0 4px 12px rgba(59, 130, 246, 0.2);
+		animation: char-float 3s ease-in-out infinite;
+		transform-style: preserve-3d;
+		transition: all 0.3s ease;
+		cursor: default;
+	}
+
+	.quote-char:nth-child(1) { animation-delay: 0s; }
+	.quote-char:nth-child(2) { animation-delay: 0.1s; }
+	.quote-char:nth-child(3) { animation-delay: 0.2s; }
+	.quote-char:nth-child(4) { animation-delay: 0.3s; }
+	.quote-char:nth-child(5) { animation-delay: 0.4s; }
+	.quote-char:nth-child(6) { animation-delay: 0.5s; }
+	.quote-char:nth-child(7) { animation-delay: 0.6s; }
+	.quote-char:nth-child(8) { animation-delay: 0.7s; }
+	.quote-char:nth-child(9) { animation-delay: 0.8s; }
+	.quote-char:nth-child(10) { animation-delay: 0.9s; }
+	.quote-char:nth-child(11) { animation-delay: 1.0s; }
+	.quote-char:nth-child(12) { animation-delay: 1.1s; }
+	.quote-char:nth-child(13) { animation-delay: 1.2s; }
+
+	.quote-char:hover {
+		color: rgba(147, 197, 253, 1);
+		text-shadow: 
+			0 2px 8px rgba(59, 130, 246, 0.4),
+			0 4px 16px rgba(59, 130, 246, 0.3);
+		transform: translateY(-6px) scale(1.1);
+	}
+
+	@keyframes char-float {
+		0%, 100% {
+			transform: translateY(0);
+			opacity: 0.9;
+		}
+		50% {
+			transform: translateY(-4px);
+			opacity: 1;
+		}
 	}
 
 	/* 社交链接 */
@@ -613,54 +678,6 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script is:inline>
-	// 一言API
-	let quoteRetryCount = 0;
-	const maxQuoteRetries = 3;
-	const fallbackQuotes = [
-		{ text: '纵使前路漫漫，亦要砥砺前行。', from: '言西早木' },
-		{ text: '代码如诗，记录如酒。', from: '言西早木' },
-		{ text: '学习是一场永无止境的旅程。', from: '言西早木' },
-		{ text: '保持热爱，奔赴山海。', from: '言西早木' }
-	];
-
-	async function updateQuote() {
-		const textEl = document.getElementById('hitokoto-text');
-		const fromEl = document.getElementById('hitokoto-from');
-		
-		try {
-			const controller = new AbortController();
-			const timeoutId = setTimeout(() => controller.abort(), 5000);
-			
-			const response = await fetch('https://v1.hitokoto.cn/', {
-				signal: controller.signal
-			});
-			
-			clearTimeout(timeoutId);
-			
-			if (response.ok) {
-				const data = await response.json();
-				textEl.textContent = data.hitokoto;
-				fromEl.textContent = `—— 「 ${data.from} 」`;
-				quoteRetryCount = 0;
-			} else {
-				throw new Error(`HTTP ${response.status}`);
-			}
-		} catch (e) {
-			console.log('一言API请求失败:', e.message);
-			
-			if (quoteRetryCount < maxQuoteRetries) {
-				quoteRetryCount++;
-				setTimeout(updateQuote, 2000 * quoteRetryCount);
-				return;
-			}
-			
-			const fallback = fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
-			textEl.textContent = fallback.text;
-			fromEl.textContent = `—— 「 ${fallback.from} 」`;
-			quoteRetryCount = 0;
-		}
-	}
-
 	// 同步状态栏
 	function syncStatus() {
 		const hDate = document.getElementById('hero-date');
@@ -706,8 +723,6 @@ import Layout from '../layouts/Layout.astro';
 	}
 
 	// 初始化
-	updateQuote();
-	setInterval(updateQuote, 10000);
 	setTimeout(syncStatus, 500);
 	setInterval(syncStatus, 2000);
 </script>

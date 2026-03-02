@@ -4,7 +4,7 @@ interface Props {
 	description?: string;
 }
 
-const { title, description = '言西早木的个人博客，分享技术、生活与灵感。使用 Astro 构建。' } = Astro.props;
+const { title, description = '帷幄的个人博客，分享技术、生活与灵感。使用 Astro 构建。' } = Astro.props;
 ---
 
 <!doctype html>
@@ -82,7 +82,7 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 						<span>访客数 <span id="busuanzi_value_site_uv">加载中...</span> 人</span>
 					</span>
 				</div>
-				<p>&copy; {new Date().getFullYear()} 言西早木的Blog. All rights reserved.</p>
+				<p>&copy; {new Date().getFullYear()} 帷幄的Blog. All rights reserved.</p>
 				<div class="footer-links">
 					<a href="/about">关于</a>
 					<a href="https://github.com/cong1ling" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -101,23 +101,8 @@ const { title, description = '言西早木的个人博客，分享技术、生�
 		<!-- 不蒜子访问量统计 -->
 		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-		<!-- Live2D Widget - Koharu Model -->
+		<!-- Live2D Widget - 简单配置 -->
 		<script src="https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/autoload.js"></script>
-		<script is:inline>
-			// 等待 Live2D 加载完成后切换到 koharu 模型
-			function loadKoharuModel() {
-				if (typeof loadlive2d === 'function') {
-					loadlive2d('live2d', 'https://unpkg.com/live2d-widget-model-koharu@1.0.5/assets/koharu.model.json');
-					console.log('Koharu 模型已加载');
-				} else {
-					setTimeout(loadKoharuModel, 500);
-				}
-			}
-			setTimeout(loadKoharuModel, 3000);
-		</script>
-		
-		<!-- Live2D Custom Config -->
-		<script is:inline src="/live2d-custom-config.js"></script>
 
 		<!-- 鼠标点击特效 -->
 		<script is:inline src="/click-effect.js"></script>
