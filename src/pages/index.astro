@@ -143,19 +143,7 @@ import Layout from '../layouts/Layout.astro';
 						<div class="card-hover-effect"></div>
 					</a>
 
-					<a href="https://linux.do" target="_blank" rel="noopener noreferrer" class="nav-card">
-						<div class="card-icon-wrapper">
-							<svg class="card-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-								<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-								<circle cx="9" cy="7" r="4"></circle>
-								<path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-								<path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-							</svg>
-						</div>
-						<h3>Linux.do 社区</h3>
-						<p>重现互联网精神，加入充满活力的技术社区</p>
-						<div class="card-hover-effect"></div>
-					</a>
+
 
 					<div class="nav-card game-card" id="gameCard">
 						<div class="card-icon-wrapper">
@@ -225,16 +213,18 @@ import Layout from '../layouts/Layout.astro';
 		inset: 0;
 		background: linear-gradient(
 			135deg,
-			rgba(0, 0, 0, 0.3) 0%,
-			rgba(0, 0, 0, 0.2) 100%
+			rgba(0, 0, 0, 0.15) 0%,
+			rgba(0, 0, 0, 0.1) 100%
 		);
+		pointer-events: none;
+		z-index: 1;
 	}
 
 	html[data-theme='dark'] .hero-gradient-overlay {
 		background: linear-gradient(
 			135deg,
-			rgba(0, 0, 0, 0.4) 0%,
-			rgba(0, 0, 0, 0.3) 100%
+			rgba(0, 0, 0, 0.25) 0%,
+			rgba(0, 0, 0, 0.15) 100%
 		);
 	}
 

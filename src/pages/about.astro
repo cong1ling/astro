@@ -2,218 +2,48 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="关于项目 - Astro Blog" description="关于这个博客项目的技术栈和使用的API介绍。">
+<Layout title="关于 - 帷幄" description="关于帷幄博客的技术栈和项目介绍。">
 	<main>
-		<div class="about-hero">
-			<div class="hero-decoration"></div>
-			<h1>关于项目</h1>
-			<p class="hero-intro">一个基于 Astro 构建的现代博客系统</p>
-		</div>
-		
-		<div class="content-wrapper">
-			<div class="project-card">
-				<div class="project-icon">
-					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M12 2L2 7l10 5 10-5-10-5z"></path>
-						<path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
-					</svg>
-				</div>
-				<div class="project-info">
-					<h2>Astro Blog</h2>
-					<p class="project-description">一个轻量、快速、现代化的个人博客系统</p>
+		<div class="about-container">
+			<h1>关于帷幄</h1>
+			<p class="subtitle">基于 Astro 构建的现代博客</p>
+			
+			<div class="section">
+				<h2>技术栈</h2>
+				<div class="tech-list">
+					<span class="tech-tag">Astro</span>
+					<span class="tech-tag">TypeScript</span>
+					<span class="tech-tag">Markdown</span>
+					<span class="tech-tag">CSS Variables</span>
 				</div>
 			</div>
 
-			<div class="content-section">
-				<div class="section-card">
-					<div class="card-icon">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<polyline points="16 18 22 12 16 6"></polyline>
-							<polyline points="8 6 2 12 8 18"></polyline>
-						</svg>
-					</div>
-					<h3>技术栈</h3>
-					<div class="tech-grid">
-						<div class="tech-item">
-							<span class="tech-name">Astro</span>
-							<span class="tech-desc">现代化的静态站点生成框架</span>
-						</div>
-						<div class="tech-item">
-							<span class="tech-name">TypeScript</span>
-							<span class="tech-desc">类型安全的 JavaScript 超集</span>
-						</div>
-						<div class="tech-item">
-							<span class="tech-name">Markdown</span>
-							<span class="tech-desc">简洁的内容编写方式</span>
-						</div>
-						<div class="tech-item">
-							<span class="tech-name">CSS Variables</span>
-							<span class="tech-desc">灵活的主题定制系统</span>
-						</div>
-					</div>
-				</div>
+			<div class="section">
+				<h2>特性</h2>
+				<ul class="feature-list">
+					<li>⚡ 极速加载 - 静态生成，零 JavaScript 运行时开销</li>
+					<li>🌓 主题切换 - 支持亮色/暗色模式</li>
+					<li>📱 响应式设计 - 完美适配各种屏幕</li>
+					<li>🔍 文章搜索 - 支持标题、标签搜索</li>
+					<li>📊 阅读进度 - 实时显示阅读进度</li>
+					<li>🖼️ 每日一图 - 自动获取精美图片</li>
+				</ul>
+			</div>
 
-				<div class="section-card">
-					<div class="card-icon">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<circle cx="12" cy="12" r="10"></circle>
-							<line x1="2" y1="12" x2="22" y2="12"></line>
-							<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-						</svg>
-					</div>
-					<h3>使用的 API</h3>
-					
+			<div class="section">
+				<h2>API 服务</h2>
+				<div class="api-list">
 					<div class="api-item">
-						<div class="api-header">
-							<h4>Waifu.pics API</h4>
-							<span class="api-badge">动漫图片</span>
-						</div>
-						<div class="api-content">
-							<p class="api-desc">用于博客页面的每日一图功能，提供高质量的动漫图片。</p>
-							<div class="api-details">
-								<div class="api-detail">
-									<span class="label">接口地址</span>
-									<code>https://api.waifu.pics/sfw/waifu</code>
-								</div>
-								<div class="api-detail">
-									<span class="label">请求方式</span>
-									<code>GET</code>
-								</div>
-								<div class="api-detail">
-									<span class="label">返回格式</span>
-									<code>JSON</code>
-								</div>
-								<div class="api-detail">
-									<span class="label">返回示例</span>
-									<code>url: https://cdn.waifu.im/...</code>
-								</div>
-							</div>
-						</div>
+						<strong>Waifu.pics</strong> - 动漫图片 API
 					</div>
-
 					<div class="api-item">
-						<div class="api-header">
-							<h4>GitHub + jsDelivr</h4>
-							<span class="api-badge">图床服务</span>
-						</div>
-						<div class="api-content">
-							<p class="api-desc">使用 GitHub 作为图片存储，通过 jsDelivr CDN 加速访问。</p>
-							<div class="api-details">
-								<div class="api-detail">
-									<span class="label">CDN 格式</span>
-									<code>https://cdn.jsdelivr.net/gh/用户名/仓库名@分支/文件路径</code>
-								</div>
-								<div class="api-detail">
-									<span class="label">示例</span>
-									<code>https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/preview.gif</code>
-								</div>
-							</div>
-						</div>
+						<strong>GitHub + jsDelivr</strong> - 图床与 CDN 加速
 					</div>
 				</div>
+			</div>
 
-				<div class="section-card">
-					<div class="card-icon">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-							<line x1="3" y1="9" x2="21" y2="9"></line>
-							<line x1="9" y1="21" x2="9" y2="9"></line>
-						</svg>
-					</div>
-					<h3>项目特性</h3>
-					<div class="features-grid">
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-								</svg>
-							</div>
-							<h4>极速加载</h4>
-							<p>静态生成，零 JavaScript 运行时开销</p>
-						</div>
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<circle cx="12" cy="12" r="5"></circle>
-									<line x1="12" y1="1" x2="12" y2="3"></line>
-									<line x1="12" y1="21" x2="12" y2="23"></line>
-									<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-									<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-									<line x1="1" y1="12" x2="3" y2="12"></line>
-									<line x1="21" y1="12" x2="23" y2="12"></line>
-									<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-									<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-								</svg>
-							</div>
-							<h4>主题切换</h4>
-							<p>支持亮色/暗色主题，自动跟随系统</p>
-						</div>
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-									<line x1="12" y1="18" x2="12.01" y2="18"></line>
-								</svg>
-							</div>
-							<h4>响应式设计</h4>
-							<p>完美适配各种屏幕尺寸</p>
-						</div>
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<circle cx="11" cy="11" r="8"></circle>
-									<line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-								</svg>
-							</div>
-							<h4>文章搜索</h4>
-							<p>支持标题、标签、描述搜索</p>
-						</div>
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<line x1="12" y1="20" x2="12" y2="10"></line>
-									<line x1="18" y1="20" x2="18" y2="4"></line>
-									<line x1="6" y1="20" x2="6" y2="16"></line>
-								</svg>
-							</div>
-							<h4>阅读进度</h4>
-							<p>实时显示阅读进度条</p>
-						</div>
-						<div class="feature-item">
-							<div class="feature-icon">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-									<rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-									<circle cx="8.5" cy="8.5" r="1.5"></circle>
-									<polyline points="21 15 16 10 5 21"></polyline>
-								</svg>
-							</div>
-							<h4>每日一图</h4>
-							<p>自动获取精美动漫图片</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="section-card">
-					<div class="card-icon">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-							<polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-							<line x1="12" y1="22.08" x2="12" y2="12"></line>
-						</svg>
-					</div>
-					<h3>开发方式</h3>
-					<p>
-						本项目使用 <strong>VibeCoding</strong> 辅助开发，这是一种结合 AI 工具的现代开发方式。通过 AI 的帮助，能够更高效地实现功能、优化代码，并专注于创造性的工作。
-					</p>
-				</div>
-
-				<div class="quote-card">
-					<svg class="quote-icon" width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
-						<path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/>
-					</svg>
-					<p class="quote-text">"代码如诗，记录如酒。"</p>
-					<p class="quote-author">— 言西早木</p>
-				</div>
+			<div class="quote">
+				<p>"运筹帷幄之中，决胜千里之外"</p>
 			</div>
 		</div>
 	</main>
@@ -221,383 +51,128 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
 	main {
-		max-width: 1000px;
+		max-width: 800px;
 		margin: 0 auto;
-		padding: 0;
+		padding: 3rem 1.5rem;
 	}
 
-	.about-hero {
-		position: relative;
+	.about-container {
 		text-align: center;
-		padding: 4rem 1rem 3rem;
-		overflow: hidden;
 	}
 
-	.hero-decoration {
-		position: absolute;
-		top: -50px;
-		right: -50px;
-		width: 300px;
-		height: 300px;
-		background: linear-gradient(135deg, var(--c-primary), var(--c-secondary));
-		opacity: 0.08;
-		pointer-events: none;
-		transform: rotate(15deg);
-	}
-
-	html[data-theme="dark"] .hero-decoration {
-		opacity: 0.05;
-	}
-	
-	.about-hero h1 {
-		position: relative;
-		z-index: 1;
-		font-size: var(--font-size-4xl);
-		font-weight: 700;
-		margin: 0 0 1rem 0;
-		color: var(--c-text);
-	}
-
-	.hero-intro {
-		position: relative;
-		z-index: 1;
-		font-size: var(--font-size-lg);
-		color: var(--c-text-secondary);
-		margin: 0;
-	}
-
-	.content-wrapper {
-		padding: 0 1rem 4rem;
-	}
-
-	.project-card {
-		display: flex;
-		gap: 2rem;
-		align-items: center;
-		background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-		border-radius: var(--radius-xl);
-		padding: 2rem;
-		margin-bottom: 2rem;
-		box-shadow: var(--shadow-xl);
-		color: white;
-	}
-
-	.project-icon {
-		flex-shrink: 0;
-		width: 80px;
-		height: 80px;
-		background: rgba(255, 255, 255, 0.2);
-		border-radius: var(--radius-lg);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		backdrop-filter: blur(10px);
-	}
-
-	.project-info h2 {
-		font-size: var(--font-size-3xl);
+	h1 {
+		font-size: 2.5rem;
 		font-weight: 700;
 		margin: 0 0 0.5rem 0;
+		color: var(--c-text);
 	}
 
-	.project-description {
-		font-size: var(--font-size-lg);
-		opacity: 0.95;
-		margin: 0;
+	.subtitle {
+		font-size: 1.1rem;
+		color: var(--c-text-secondary);
+		margin: 0 0 3rem 0;
 	}
 
-	.content-section {
-		display: flex;
-		flex-direction: column;
-		gap: 1.5rem;
+	.section {
+		margin-bottom: 2.5rem;
+		text-align: left;
 	}
 
-	.section-card {
-		background: var(--c-card-bg);
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
-		border: 1px solid var(--c-card-border);
-		border-radius: var(--radius-xl);
-		padding: 2rem;
-		box-shadow: var(--shadow-md);
-		transition: all 0.3s ease;
-	}
-
-	.section-card:hover {
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-lg);
-	}
-
-	.card-icon {
-		width: 48px;
-		height: 48px;
-		border-radius: var(--radius-md);
-		background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: white;
-		margin-bottom: 1rem;
-	}
-
-	.section-card h3 {
-		font-size: var(--font-size-xl);
+	.section h2 {
+		font-size: 1.3rem;
 		font-weight: 600;
 		color: var(--c-text);
-		margin: 0 0 1.5rem 0;
-	}
-
-	.section-card p {
-		font-size: var(--font-size-base);
-		color: var(--c-text-secondary);
-		line-height: 1.7;
-		margin: 0;
-	}
-
-	.tech-grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1rem;
-	}
-
-	.tech-item {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding: 1rem;
-		background: var(--c-surface);
-		border: 1px solid var(--c-card-border);
-		border-radius: var(--radius-md);
-		transition: all 0.2s ease;
-	}
-
-	.tech-item:hover {
-		border-color: var(--c-primary);
-		transform: translateY(-2px);
-	}
-
-	.tech-name {
-		font-weight: 600;
-		color: var(--c-primary);
-		font-size: var(--font-size-base);
-	}
-
-	.tech-desc {
-		font-size: var(--font-size-sm);
-		color: var(--c-text-secondary);
-	}
-
-	.api-item {
-		margin-bottom: 1.5rem;
-		padding: 1.5rem;
-		background: var(--c-surface);
-		border: 1px solid var(--c-card-border);
-		border-radius: var(--radius-lg);
-		transition: all 0.2s ease;
-	}
-
-	.api-item:hover {
-		border-color: var(--c-primary);
-	}
-
-	.api-item:last-child {
-		margin-bottom: 0;
-	}
-
-	.api-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 1rem;
-	}
-
-	.api-header h4 {
-		font-size: var(--font-size-lg);
-		font-weight: 600;
-		color: var(--c-text);
-		margin: 0;
-	}
-
-	.api-badge {
-		padding: 0.25rem 0.75rem;
-		background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-		color: white;
-		border-radius: var(--radius-full);
-		font-size: var(--font-size-xs);
-		font-weight: 500;
-	}
-
-	.api-desc {
-		font-size: var(--font-size-base);
-		color: var(--c-text-secondary);
 		margin: 0 0 1rem 0;
-		line-height: 1.6;
+		padding-bottom: 0.5rem;
+		border-bottom: 2px solid var(--c-primary);
+		display: inline-block;
 	}
 
-	.api-details {
+	.tech-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.tech-tag {
+		padding: 0.5rem 1rem;
+		background: var(--c-card-bg);
+		border: 1px solid var(--c-card-border);
+		border-radius: 2rem;
+		font-size: 0.9rem;
+		color: var(--c-text);
+		transition: all 0.2s ease;
+	}
+
+	.tech-tag:hover {
+		border-color: var(--c-primary);
+		transform: translateY(-2px);
+	}
+
+	.feature-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		gap: 0.75rem;
+	}
+
+	.feature-list li {
+		padding: 0.75rem 1rem;
+		background: var(--c-card-bg);
+		border: 1px solid var(--c-card-border);
+		border-radius: 0.5rem;
+		color: var(--c-text-secondary);
+		font-size: 0.95rem;
+		transition: all 0.2s ease;
+	}
+
+	.feature-list li:hover {
+		border-color: var(--c-primary);
+		transform: translateX(4px);
+	}
+
+	.api-list {
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 	}
 
-	.api-detail {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.api-detail .label {
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		color: var(--c-text);
-	}
-
-	.api-detail code {
-		padding: 0.5rem 0.75rem;
+	.api-item {
+		padding: 1rem;
 		background: var(--c-card-bg);
 		border: 1px solid var(--c-card-border);
-		border-radius: var(--radius-sm);
-		font-family: "Consolas", "Monaco", monospace;
-		font-size: var(--font-size-sm);
-		color: var(--c-primary);
-		word-break: break-all;
-	}
-
-	.features-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-	}
-
-	.feature-item {
-		text-align: center;
-		padding: 1.5rem 1rem;
-		background: var(--c-surface);
-		border: 1px solid var(--c-card-border);
-		border-radius: var(--radius-lg);
-		transition: all 0.2s ease;
-	}
-
-	.feature-item:hover {
-		border-color: var(--c-primary);
-		transform: translateY(-4px);
-		box-shadow: var(--shadow-md);
-	}
-
-	.feature-icon {
-		width: 48px;
-		height: 48px;
-		border-radius: var(--radius-md);
-		background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: white;
-		margin: 0 auto 0.75rem;
-	}
-
-	.feature-item h4 {
-		font-size: var(--font-size-base);
-		font-weight: 600;
-		color: var(--c-text);
-		margin: 0 0 0.5rem 0;
-	}
-
-	.feature-item p {
-		font-size: var(--font-size-sm);
+		border-radius: 0.5rem;
 		color: var(--c-text-secondary);
-		margin: 0;
-		line-height: 1.5;
+		font-size: 0.95rem;
 	}
 
-	.quote-card {
-		position: relative;
+	.api-item strong {
+		color: var(--c-primary);
+		margin-right: 0.5rem;
+	}
+
+	.quote {
+		margin-top: 3rem;
+		padding: 2rem;
 		background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-		border-radius: var(--radius-xl);
-		padding: 3rem 2rem;
-		text-align: center;
+		border-radius: 1rem;
 		color: white;
-		box-shadow: var(--shadow-xl);
-		overflow: hidden;
 	}
 
-	.quote-card::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-		opacity: 0.1;
-	}
-
-	.quote-icon {
-		position: relative;
-		z-index: 1;
-		opacity: 0.3;
-		margin-bottom: 1rem;
-	}
-
-	.quote-text {
-		position: relative;
-		z-index: 1;
-		font-size: var(--font-size-2xl);
-		font-weight: 500;
-		font-style: italic;
-		margin: 0 0 1rem 0;
-		line-height: 1.5;
-	}
-
-	.quote-author {
-		position: relative;
-		z-index: 1;
-		font-size: var(--font-size-base);
-		opacity: 0.9;
+	.quote p {
 		margin: 0;
+		font-size: 1.25rem;
+		font-style: italic;
 	}
 
-	@media (max-width: 768px) {
-		.project-card {
-			flex-direction: column;
-			text-align: center;
+	@media (max-width: 640px) {
+		h1 {
+			font-size: 2rem;
 		}
 
-		.project-icon {
-			width: 60px;
-			height: 60px;
-		}
-
-		.project-info h2 {
-			font-size: var(--font-size-2xl);
-		}
-
-		.about-hero {
+		main {
 			padding: 2rem 1rem;
-		}
-
-		.hero-decoration {
-			width: 200px;
-			height: 200px;
-		}
-
-		.tech-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.features-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.quote-card {
-			padding: 2rem 1.5rem;
-		}
-
-		.quote-text {
-			font-size: var(--font-size-xl);
-		}
-
-		.api-header {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.5rem;
 		}
 	}
 </style>
