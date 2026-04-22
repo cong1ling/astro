@@ -98,7 +98,9 @@ const { title, description = '帷幄的个人博客，分享技术、生活与�
 			</svg>
 		</button>
 
-		<!-- 不蒜子访问量统计 -->
+		<canvas id="petal-cursor" aria-hidden="true"></canvas>
+
+			<!-- 不蒜子访问量统计 -->
 		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 		<!-- Live2D Widget - 简单配置 -->
@@ -106,6 +108,254 @@ const { title, description = '帷幄的个人博客，分享技术、生活与�
 
 		<!-- 鼠标点击特效 -->
 		<script is:inline src="/click-effect.js"></script>
+
+			<script is:inline>
+				(() => {
+					const canvas = document.getElementById('petal-cursor');
+					if (!(canvas instanceof HTMLCanvasElement)) return;
+
+					const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+					const coarsePointer = window.matchMedia('(pointer: coarse)');
+					if (prefersReducedMotion.matches || coarsePointer.matches) return;
+
+					const ctx = canvas.getContext('2d');
+					if (!ctx) return;
+
+					const particles = [];
+					const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2, active: false };
+					const DPR = Math.min(window.devicePixelRatio || 1, 2);
+					const MAX_PARTICLES = 60;
+					const TRAIL_LENGTH = 4;
+					const EMIT_INTERVAL = 20;
+					const REPULSE_RADIUS = 26;
+					const ATTRACT_RADIUS = 132;
+					const VORTEX_RADIUS = 136;
+					let width = window.innerWidth;
+					let height = window.innerHeight;
+					let lastTime = performance.now();
+					let rafId = 0;
+					let lastSpawn = 0;
+
+					// 优化花瓣颜色，使用更淡的粉色系
+					const petalColors = [
+						'rgba(255, 220, 230, 0.8)',
+						'rgba(255, 230, 235, 0.75)',
+						'rgba(255, 235, 240, 0.7)',
+						'rgba(255, 240, 245, 0.65)',
+						'rgba(255, 245, 248, 0.6)',
+						'rgba(250, 225, 235, 0.7)',
+						'rgba(250, 230, 240, 0.65)'
+					];
+
+					function resizeCanvas() {
+						width = window.innerWidth;
+						height = window.innerHeight;
+						canvas.width = Math.floor(width * DPR);
+						canvas.height = Math.floor(height * DPR);
+						canvas.style.width = `${width}px`;
+						canvas.style.height = `${height}px`;
+						ctx.setTransform(1, 0, 0, 1, 0, 0);
+						ctx.scale(DPR, DPR);
+					}
+
+					function rand(min, max) {
+						return Math.random() * (max - min) + min;
+					}
+
+					function createParticle(x, y, burst = false) {
+						// 更自然的飘落角度
+						const angle = -Math.PI / 2 + rand(-1.0, 1.0) + Math.PI * 0.1;
+						// 减慢速度以增强飘落效果
+						const speed = burst ? rand(15, 30) : rand(2, 5);
+						const size = rand(4, 7);
+						// 延长生命周期使飘落过程更完整
+						const life = rand(3.0, 4.5);
+
+						return {
+							x,
+							y,
+							vx: Math.cos(angle) * speed + rand(-3, 3),
+							vy: Math.sin(angle) * speed - rand(5, 10),
+							ax: 0,
+							ay: 0,
+							size,
+							life,
+							maxLife: life,
+							rotation: rand(0, Math.PI * 2),
+							spin: rand(-0.6, 0.6), // 减慢旋转速度
+							color: petalColors[(Math.random() * petalColors.length) | 0],
+							trail: [],
+							waveOffset: rand(0, Math.PI * 2),
+							waveFrequency: rand(0.3, 0.8), // 波浪频率
+							waveAmplitude: rand(3, 6), // 波浪幅度
+							swayOffset: rand(0, Math.PI * 2), // 左右摇摆偏移
+							swayFrequency: rand(0.2, 0.5), // 摇摆频率
+							swayAmplitude: rand(1, 3) // 摇摆幅度
+						};
+					}
+
+					function spawn(x, y, count) {
+						for (let i = 0; i < count; i++) {
+							if (particles.length >= MAX_PARTICLES) particles.shift();
+							particles.push(createParticle(x + rand(-14, 14), y + rand(-14, 14), true));
+						}
+					}
+
+					function drawPetal(x, y, size, rotation, alpha, color) {
+						ctx.save();
+						ctx.translate(x, y);
+						ctx.rotate(rotation);
+						ctx.scale(1, 0.82);
+						ctx.globalAlpha = alpha;
+						ctx.fillStyle = color;
+						ctx.beginPath();
+						ctx.moveTo(0, -size * 0.9);
+						ctx.bezierCurveTo(size * 0.95, -size * 0.65, size * 0.9, size * 0.65, 0, size);
+						ctx.bezierCurveTo(-size * 0.9, size * 0.65, -size * 0.95, -size * 0.65, 0, -size * 0.9);
+						ctx.fill();
+
+						ctx.globalAlpha = alpha * 0.35;
+						ctx.fillStyle = 'white';
+						ctx.beginPath();
+						ctx.ellipse(size * 0.12, -size * 0.1, size * 0.16, size * 0.35, -0.35, 0, Math.PI * 2);
+						ctx.fill();
+						ctx.restore();
+					}
+
+					function update(dt) {
+						for (let i = particles.length - 1; i >= 0; i--) {
+							const p = particles[i];
+							const dx = pointer.x - p.x;
+							const dy = pointer.y - p.y;
+							const dist = Math.hypot(dx, dy) || 1;
+
+							// 更自然的重力效果（向下飘落）
+							p.ay = 20;
+
+							// 空气阻力
+							p.vx *= Math.pow(0.92, dt * 60);
+							p.vy *= Math.pow(0.92, dt * 60);
+
+							// 鼠标交互效果
+							if (pointer.active) {
+								if (dist < REPULSE_RADIUS) {
+									const force = (REPULSE_RADIUS - dist) * 12;
+									p.ax -= (dx / dist) * force;
+									p.ay -= (dy / dist) * force;
+								}
+
+								if (dist < ATTRACT_RADIUS) {
+									const pull = (ATTRACT_RADIUS - dist) * 1.2;
+									p.ax += (dx / dist) * pull;
+									p.ay += (dy / dist) * pull * 0.8;
+								}
+
+								if (dist < VORTEX_RADIUS) {
+									const swirl = (VORTEX_RADIUS - dist) * 2.5;
+									p.ax += (-dy / dist) * swirl;
+									p.ay += (dx / dist) * swirl;
+								}
+							}
+
+							// 波浪运动
+							p.x += Math.sin(p.waveOffset + p.waveFrequency * p.life) * p.waveAmplitude * dt * 60;
+							p.waveOffset += dt * 1.5;
+
+							// 左右摇摆效果
+							p.x += Math.sin(p.swayOffset + p.swayFrequency * p.life) * p.swayAmplitude * dt * 60;
+							p.swayOffset += dt * 1.2;
+
+							// 更新速度和位置
+							p.vx += p.ax * dt;
+							p.vy += p.ay * dt;
+
+							p.x += p.vx * dt;
+							p.y += p.vy * dt;
+							p.rotation += p.spin * dt;
+							p.life -= dt;
+
+							// 花瓣大小随时间变化
+							const sizeFactor = 1 - (p.life / p.maxLife) * 0.3;
+							p.currentSize = p.size * sizeFactor;
+
+							// 更新轨迹
+							p.trail.push({ x: p.x, y: p.y, size: p.currentSize || p.size, life: p.life / p.maxLife });
+							if (p.trail.length > TRAIL_LENGTH) p.trail.shift();
+
+							// 移除生命周期结束的粒子
+							if (p.life <= 0 || p.y < -100 || p.y > height + 100 || p.x < -100 || p.x > width + 100) {
+								particles.splice(i, 1);
+							}
+						}
+					}
+
+					function render() {
+						ctx.clearRect(0, 0, width, height);
+
+						for (const p of particles) {
+							// 绘制轨迹
+							for (let i = 0; i < p.trail.length; i++) {
+								const t = p.trail[i];
+								const alpha = ((i + 1) / p.trail.length) * 0.15 * t.life;
+								drawPetal(t.x, t.y, t.size * (0.5 + (i / p.trail.length) * 0.3), p.rotation, alpha, p.color);
+							}
+
+							// 绘制当前粒子
+							const alpha = Math.max(0, Math.min(1, p.life / p.maxLife));
+							drawPetal(p.x, p.y, p.currentSize || p.size, p.rotation, alpha, p.color);
+						}
+					}
+
+					function frame(now) {
+						const dt = Math.min((now - lastTime) / 1000, 0.033);
+						lastTime = now;
+						update(dt);
+						render();
+						rafId = window.requestAnimationFrame(frame);
+					}
+
+					function onPointerMove(event) {
+						pointer.x = event.clientX;
+						pointer.y = event.clientY;
+						pointer.active = true;
+
+						const now = performance.now();
+						if (now - lastSpawn > EMIT_INTERVAL) {
+							spawn(pointer.x, pointer.y, 1);
+							lastSpawn = now;
+						}
+					}
+
+					function onPointerLeave() {
+						pointer.active = false;
+					}
+
+					function onPointerDown(event) {
+						pointer.x = event.clientX;
+						pointer.y = event.clientY;
+						pointer.active = true;
+						spawn(pointer.x, pointer.y, 3);
+					}
+
+					function cleanup() {
+						window.cancelAnimationFrame(rafId);
+						window.removeEventListener('resize', resizeCanvas);
+						window.removeEventListener('pointermove', onPointerMove);
+						window.removeEventListener('pointerleave', onPointerLeave);
+						window.removeEventListener('pointerdown', onPointerDown);
+						window.removeEventListener('pagehide', cleanup);
+					}
+
+					resizeCanvas();
+					window.addEventListener('resize', resizeCanvas);
+					window.addEventListener('pointermove', onPointerMove, { passive: true });
+					window.addEventListener('pointerleave', onPointerLeave);
+					window.addEventListener('pointerdown', onPointerDown, { passive: true });
+					window.addEventListener('pagehide', cleanup);
+
+					rafId = window.requestAnimationFrame(frame);
+				})();
+			</script>
 
 		<script is:inline>
 			// Theme Logic
@@ -719,7 +969,37 @@ const { title, description = '帷幄的个人博客，分享技术、生活与�
 		z-index: 999;
 	}
 
-	.back-to-top.visible {
+	#petal-cursor {
+			position: fixed;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 998;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			#petal-cursor {
+				display: none;
+			}
+		}
+
+		#petal-cursor {
+			position: fixed;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			z-index: 998;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			#petal-cursor {
+				display: none;
+			}
+		}
+
+		.back-to-top.visible {
 		opacity: 1;
 		visibility: visible;
 	}
