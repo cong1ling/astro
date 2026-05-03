@@ -244,21 +244,73 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
         margin-bottom: 0.5rem;
     }
     
+    /* Terminal-style code blocks */
     .markdown-body :global(pre) {
-        background: #1e1e1e;
-        padding: 1.5rem;
-        border-radius: var(--radius-card);
-        overflow-x: auto;
+        background: #15001f;
+        border: 1px solid #c042ff;
+        border-radius: 8px;
+        overflow: hidden;
         margin-bottom: 1.5rem;
-        font-size: 0.9rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        font-size: 14px;
+        font-family: monospace;
+        box-shadow: 0 8px 32px rgba(192, 66, 255, 0.2);
     }
 
-    html[data-theme='light'] .markdown-body :global(pre) {
-        background: #f6f8fa;
-        border-color: rgba(0, 0, 0, 0.1);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    .markdown-body :global(pre) .code-header {
+        display: flex;
+        align-items: center;
+        background-color: #2e0043;
+        height: 35px;
+        padding-left: 12px;
+    }
+
+    .markdown-body :global(pre) code {
+        display: block;
+        overflow: auto;
+        padding: 10px;
+        color: #bafff8;
+        line-height: 1.5;
+    }
+
+    .markdown-body :global(pre) code .curly-braces {
+        color: #ff0000;
+    }
+
+    .markdown-body :global(pre) code .square-brackets {
+        color: #e600ff;
+    }
+
+    .markdown-body :global(pre) code .round-brackets {
+        color: #ffffff;
+    }
+
+    .markdown-body :global(pre) code .operators {
+        color: #ffff00;
+    }
+
+    .markdown-body :global(pre) code .keyword {
+        color: #22ff00;
+    }
+
+    .markdown-body :global(pre) code .string {
+        color: #4281ff;
+    }
+
+    .markdown-body :global(pre) code .function {
+        color: #ff4284;
+    }
+
+    .markdown-body :global(pre) code .number {
+        color: #ffae00;
+    }
+
+    .markdown-body :global(pre) code .comment {
+        color: #ffffff;
+        opacity: 0.6;
+    }
+
+    .markdown-body :global(pre) code .variable {
+        color: #ffff00;
     }
     
     .markdown-body :global(code) {
@@ -346,86 +398,95 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 </style>
 
 <script is:inline>
-	function throttle(func, limit) {
-		let inThrottle;
-		return function(...args) {
-			if (!inThrottle) {
-				func.apply(this, args);
-				inThrottle = true;
-				setTimeout(() => inThrottle = false, limit);
-			}
-		};
-	}
+    function createTerminalHeader() {
+        const preElements = document.querySelectorAll('.markdown-body pre');
 
-	document.addEventListener('DOMContentLoaded', () => {
+        preElements.forEach(pre => {
+            const header = document.createElement('div');
+            header.className = 'code-header';
+            pre.insertBefore(header, pre.firstChild);
+        });
+    }
 
-		const progressBar = document.querySelector('.progress-bar');
-		if (progressBar) {
-			function updateProgress() {
-				const scrollTop = window.pageYOffset;
-				const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-				const progress = (scrollTop / docHeight) * 100;
-				progressBar.style.width = `${progress}%`;
-			}
+    function throttle(func, limit) {
+        let inThrottle;
+        return function(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
 
-			window.addEventListener('scroll', throttle(updateProgress, 50));
-			updateProgress();
-		}
+    document.addEventListener('DOMContentLoaded', () => {
+        createTerminalHeader();
 
-		const backToTopBtn = document.getElementById('backToTop');
-		if (backToTopBtn) {
-			function toggleBackToTop() {
-				if (window.pageYOffset > 500) {
-					backToTopBtn.classList.add('visible');
-				} else {
-					backToTopBtn.classList.remove('visible');
-				}
-			}
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) {
+            function updateProgress() {
+                const scrollTop = window.pageYOffset;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = (scrollTop / docHeight) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
 
-			window.addEventListener('scroll', throttle(toggleBackToTop, 100));
-			toggleBackToTop();
+            window.addEventListener('scroll', throttle(updateProgress, 50));
+            updateProgress();
+        }
 
-			backToTopBtn.addEventListener('click', () => {
-				window.scrollTo({ top: 0, behavior: 'smooth' });
-			});
-		}
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            function toggleBackToTop() {
+                if (window.pageYOffset > 500) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            }
 
+            window.addEventListener('scroll', throttle(toggleBackToTop, 100));
+            toggleBackToTop();
 
-	});
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+    });
 
-	function updateActiveTOC() {
-		const tocLinks = document.querySelectorAll('.toc-link');
-		const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
-		
-		let currentHeading = null;
-		
-		for (const heading of headings) {
-			const rect = heading.getBoundingClientRect();
-			if (rect.top <= 150) {
-				currentHeading = heading;
-			} else {
-				break;
-			}
-		}
-		
-		tocLinks.forEach(link => {
-			link.classList.remove('active');
-			if (currentHeading && link.getAttribute('href') === `#${currentHeading.id}`) {
-				link.classList.add('active');
-			}
-		});
-	}
+    function updateActiveTOC() {
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const headings = document.querySelectorAll('.markdown-body h2, .markdown-body h3');
+        
+        let currentHeading = null;
+        
+        for (const heading of headings) {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 150) {
+                currentHeading = heading;
+            } else {
+                break;
+            }
+        }
+        
+        tocLinks.forEach(link => {
+            link.classList.remove('active');
+            if (currentHeading && link.getAttribute('href') === `#${currentHeading.id}`) {
+                link.classList.add('active');
+            }
+        });
+    }
 
-	let ticking = false;
-	window.addEventListener('scroll', () => {
-		if (!ticking) {
-			window.requestAnimationFrame(() => {
-				updateActiveTOC();
-				ticking = false;
-			});
-			ticking = true;
-		}
-	});
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateActiveTOC();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
 
-	document.addEventListener('DOMContentLoaded', updateActiveTOC);
+    document.addEventListener('DOMContentLoaded', updateActiveTOC);
 </script>

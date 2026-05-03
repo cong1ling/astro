@@ -2,70 +2,38 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="404 - 页面不存在" description="抱歉，您访问的页面不存在或已被移除。">
+<Layout title="404 - 页面不存在">
 	<main>
-		<div class="error-container">
-			<div class="error-content">
-				<h1 class="error-code">404</h1>
-				<h2 class="error-title">页面不存在</h2>
-				<p class="error-message">
-					抱歉，您访问的页面不存在或已被移除。
-					<br>
-					可能是链接有误，或者页面已经被移动。
-				</p>
-				<div class="error-actions">
-					<a href="/" class="btn primary">返回首页</a>
-					<a href="/blog" class="btn secondary">浏览文章</a>
+		<div class="card">
+			<!-- 背景装饰球 -->
+			<div class="orb orb--1"></div>
+			<div class="orb orb--2"></div>
+			<div class="orb orb--3"></div>
+			
+			<!-- 错误信息 -->
+			<div class="error-container">
+				<div class="error-code">404</div>
+				<div class="error-msg">页面走丢了</div>
+				<a href="/" class="home-btn">返回首页</a>
+			</div>
+			
+			<!-- 鸭子动画 -->
+			<div class="duck__wrapper">
+				<div class="duck">
+					<div class="duck__inner">
+						<div class="duck__head">
+							<div class="duck__white"></div>
+							<div class="duck__eye"></div>
+							<div class="duck__mouth"></div>
+						</div>
+						<div class="duck__body">
+							<div class="duck__wing"></div>
+						</div>
+					</div>
+					<div class="duck__foot duck__foot--1"></div>
+					<div class="duck__foot duck__foot--2"></div>
 				</div>
-			</div>
-			<div class="error-visual">
-				<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<circle cx="150" cy="150" r="140" fill="rgba(56, 182, 255, 0.1)"/>
-					<path d="M100 100L120 120M200 100L180 120M150 150C150 166.569 136.569 180 120 180C103.431 180 90 166.569 90 150C90 133.431 103.431 120 120 120C136.569 120 150 133.431 150 150Z" stroke="var(--c-primary)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-					<path d="M150 210C150 221.046 141.046 230 130 230H120C108.954 230 100 221.046 100 210V200C100 188.954 108.954 180 120 180H130C141.046 180 150 188.954 150 200V210Z" fill="var(--c-primary)"/>
-				</svg>
-			</div>
-		</div>
-		
-		<div class="error-suggestions">
-			<h3>您可能想访问这些页面</h3>
-			<div class="suggestions-grid">
-				<a href="/" class="suggestion-card">
-					<span class="suggestion-icon">
-						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-							<polyline points="9 22 9 12 15 12 15 22"></polyline>
-						</svg>
-					</span>
-					<span class="suggestion-title">首页</span>
-				</a>
-				<a href="/blog" class="suggestion-card">
-					<span class="suggestion-icon">
-						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-							<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-						</svg>
-					</span>
-					<span class="suggestion-title">文章列表</span>
-				</a>
-				<a href="/about" class="suggestion-card">
-					<span class="suggestion-icon">
-						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-							<circle cx="12" cy="7" r="4"></circle>
-						</svg>
-					</span>
-					<span class="suggestion-title">关于我</span>
-				</a>
-				<a href="/friends" class="suggestion-card">
-					<span class="suggestion-icon">
-						<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-							<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-						</svg>
-					</span>
-					<span class="suggestion-title">友链</span>
-				</a>
+				<div class="surface"></div>
 			</div>
 		</div>
 	</main>
@@ -73,207 +41,372 @@ import Layout from '../layouts/Layout.astro';
 
 <style>
 	main {
-		margin: auto;
-		padding: 2rem 1rem;
-		max-width: 1000px;
-		user-select: none;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		background: linear-gradient(135deg, #0f0f14 0%, #1a1a2e 50%, #16213e 100%);
 	}
-	
-	.error-container {
+
+	.card {
+		--bg-color: #1e1e24;
+		--bg-gradient: linear-gradient(135deg, #1e1e24 0%, #2a2a35 100%);
+		--duck-body: #f4f4f5;
+		--duck-wing: #e4e4e7;
+		--duck-beak: #ff3b30;
+		--duck-feet: #ff9f0a;
+		--duck-eye: #18181b;
+
+		--base-speed: 1s;
+		--turbo-speed: 0.3s;
+
+		position: relative;
+		width: 100%;
+		max-width: 600px;
+		height: 500px;
+		background: var(--bg-gradient);
+		border-radius: 24px;
+		box-shadow:
+			0 20px 50px rgba(0, 0, 0, 0.5),
+			inset 0 1px 0 rgba(255, 255, 255, 0.1);
+		overflow: hidden;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 3rem;
-		margin-bottom: 4rem;
-		padding: 4rem 2rem;
-		background: var(--c-card-bg);
-		backdrop-filter: blur(12px) saturate(180%);
-		-webkit-backdrop-filter: blur(12px) saturate(180%);
-		border-radius: var(--radius-card);
-		box-shadow: var(--shadow-light);
-		border: 1px solid var(--c-card-border);
+		justify-content: center;
+		cursor: pointer;
+		transition: transform 0.3s ease;
 	}
-	
-	@media (min-width: 768px) {
-		.error-container {
-			flex-direction: row;
-			justify-content: space-between;
-			text-align: left;
-		}
+
+	.card:hover {
+		transform: translateY(-5px);
 	}
-	
-	.error-content {
-		flex: 1;
+
+	.card:hover {
+		--base-speed: var(--turbo-speed);
+	}
+
+	.card:hover .error-code {
+		color: rgba(255, 255, 255, 0.1);
+	}
+
+	.card .error-container {
 		text-align: center;
-	}
-	
-	@media (min-width: 768px) {
-		.error-content {
-			text-align: left;
-		}
-	}
-	
-	.error-code {
-		font-size: 6rem;
-		font-weight: 700;
-		color: var(--c-primary);
-		margin: 0;
-		line-height: 1;
-		animation: pulse 2s ease-in-out infinite;
-	}
-	
-	.error-title {
-		font-size: 2.5rem;
-		font-weight: 600;
-		color: var(--c-text);
-		margin: 1rem 0;
-	}
-	
-	.error-message {
-		font-size: 1.1rem;
-		color: var(--c-text-light);
+		z-index: 10;
 		margin-bottom: 2rem;
-		line-height: 1.6;
+		pointer-events: none;
 	}
-	
-	.error-actions {
-		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
-		justify-content: center;
+
+	.card .error-code {
+		font-size: 10rem;
+		font-weight: 800;
+		color: rgba(255, 255, 255, 0.05);
+		line-height: 0.8;
+		transition: color 0.3s ease;
+		letter-spacing: -5px;
 	}
-	
-	@media (min-width: 768px) {
-		.error-actions {
-			justify-content: flex-start;
-		}
-	}
-	
-	.btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.8rem 1.5rem;
-		border-radius: 8px;
-		font-size: 1rem;
-		font-weight: 500;
-		text-decoration: none;
-		transition: all 0.3s ease;
-		border: 1px solid transparent;
-	}
-	
-	.btn.primary {
-		background: var(--c-primary);
-		color: white;
-	}
-	
-	.btn.primary:hover {
-		background: var(--c-primary-light);
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-hover);
-	}
-	
-	.btn.secondary {
-		background: rgba(255, 255, 255, 0.3);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		color: var(--c-text);
-		border-color: var(--c-card-border);
-	}
-	
-	.btn.secondary:hover {
-		background: rgba(255, 255, 255, 0.5);
-		transform: translateY(-2px);
-		box-shadow: var(--shadow-hover);
-	}
-	
-	html[data-theme='dark'] .btn.secondary {
-		background: rgba(30, 31, 35, 0.3);
-		border-color: var(--c-card-border);
-	}
-	
-	html[data-theme='dark'] .btn.secondary:hover {
-		background: rgba(40, 42, 46, 0.5);
-	}
-	
-	.error-visual {
-		flex: 1;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	
-	.error-suggestions {
-		text-align: center;
-		margin-top: 3rem;
-	}
-	
-	.error-suggestions h3 {
+
+	.card .error-msg {
 		font-size: 1.5rem;
 		font-weight: 600;
-		color: var(--c-text);
+		color: #fff;
+		margin-top: -20px;
 		margin-bottom: 2rem;
+		letter-spacing: -0.5px;
 	}
-	
-	.suggestions-grid {
+
+	.card .home-btn {
+		pointer-events: auto;
+		display: inline-block;
+		padding: 14px 32px;
+		background-color: #fff;
+		color: #000;
+		font-weight: 700;
+		text-decoration: none;
+		border-radius: 12px;
+		font-size: 0.9rem;
+		transition: all 0.2s ease;
+	}
+
+	.card .home-btn:hover {
+		background-color: var(--duck-beak);
+		color: white;
+		transform: scale(1.05);
+	}
+
+	.card .duck__wrapper {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-		gap: 1.5rem;
-		max-width: 800px;
-		margin: 0 auto;
+		place-content: center;
+		z-index: 5;
+		transform: scale(0.85);
+		transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
-	
-	.suggestion-card {
+
+	.card:hover .duck__wrapper {
+		transform: scale(0.85) rotate(5deg) translateX(20px);
+	}
+
+	.card .duck {
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		gap: 1rem;
-		padding: 2rem 1rem;
-		background: var(--c-card-bg);
-		backdrop-filter: blur(8px) saturate(180%);
-		-webkit-backdrop-filter: blur(8px) saturate(180%);
-		border-radius: var(--radius-card);
-		box-shadow: var(--shadow-light);
-		border: 1px solid var(--c-card-border);
-		transition: all 0.3s ease;
-		text-decoration: none;
-		color: var(--c-text);
+		position: relative;
 	}
-	
-	.suggestion-card:hover {
-		transform: translateY(-5px);
-		box-shadow: var(--shadow-hover);
-		background: rgba(255, 255, 255, 0.5);
-		backdrop-filter: blur(12px) saturate(180%);
-		-webkit-backdrop-filter: blur(12px) saturate(180%);
-	}
-	
-	html[data-theme='dark'] .suggestion-card:hover {
-		background: rgba(40, 42, 46, 0.5);
-	}
-	
-	.suggestion-icon {
+
+	.card .duck__inner {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--c-primary);
+		flex-direction: column;
+		position: relative;
+		animation: bird-up-down calc(var(--base-speed) / 2) linear infinite;
 	}
-	
-	.suggestion-title {
-		font-size: 1rem;
-		font-weight: 500;
-		color: var(--c-text);
+
+	.card .duck__head {
+		align-self: flex-end;
+		width: 6rem;
+		height: 4rem;
+		border-radius: 8rem 8rem 0 0;
+		background-color: var(--duck-body);
+		position: relative;
+		z-index: 1;
 	}
-	
-	@keyframes pulse {
+
+	.card .duck__head::after,
+	.card .duck__head::before {
+		content: "";
+		position: absolute;
+		border-radius: 1rem;
+		background-color: var(--duck-body);
+		width: 0.4rem;
+		height: 2rem;
+		top: 0;
+	}
+
+	.card .duck__head::after {
+		left: 44%;
+		transform: translate(-50%, -50%) rotate(-30deg);
+	}
+
+	.card .duck__head::before {
+		left: 45%;
+		transform: translate(-50%, -50%) rotate(10deg);
+	}
+
+	.card .duck__white {
+		position: absolute;
+		top: 0.8rem;
+		left: 0.8rem;
+		width: 0.6rem;
+		height: 1.3rem;
+		transform: rotate(40deg);
+		border-radius: 50%;
+		border-left: 0.2rem solid rgba(255, 255, 255, 0.8);
+	}
+
+	.card .duck__eye {
+		position: absolute;
+		bottom: 0.2rem;
+		right: 1rem;
+		width: 0.8rem;
+		height: 0.8rem;
+		border-radius: 50%;
+		background-color: var(--duck-eye);
+		animation: eye-animation 2s infinite linear;
+	}
+
+	.card .duck__mouth {
+		position: absolute;
+		right: 0;
+		top: 40%;
+		width: 1rem;
+		height: 1.2rem;
+		transform: translate(90%, -50%);
+		clip-path: polygon(0 0, 100% 40%, 100% 60%, 0% 100%);
+		border-radius: 0 1rem 1rem 0;
+		background-color: var(--duck-beak);
+	}
+
+	.card .duck__body {
+		width: 9.5rem;
+		height: 5rem;
+		border-radius: 1rem 0 16rem 16rem;
+		background-color: var(--duck-body);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.card .duck__body::after {
+		content: "";
+		position: absolute;
+		width: 105%;
+		height: 200%;
+		left: 50%;
+		top: -95%;
+		transform: translate(-50%, 0.02rem) rotate(-6deg);
+		border-radius: 50%;
+		border-bottom: 1rem solid #e4e4e7;
+	}
+
+	.card .duck__wing {
+		position: absolute;
+		left: 0.6rem;
+		top: 55%;
+		width: 4rem;
+		height: 2.4rem;
+		border-radius: 1rem 1rem 4rem 4rem;
+		background-color: var(--duck-wing);
+		transform: translate(0, -50%);
+		transform-origin: right;
+		animation: wing-animation var(--base-speed) linear infinite;
+		z-index: 1;
+	}
+
+	.card .duck__foot {
+		position: absolute;
+		width: 0.6rem;
+		height: 2rem;
+		background-color: var(--duck-feet);
+		z-index: -1;
+	}
+
+	.card .duck__foot::after {
+		content: "";
+		position: absolute;
+		width: 2rem;
+		height: 0.6rem;
+		bottom: 0rem;
+		left: -0.5rem;
+		background-color: var(--duck-feet);
+		border-radius: 1rem;
+	}
+
+	.card .duck__foot--1,
+	.card .duck__foot--2 {
+		left: 40%;
+		bottom: 0;
+		transform: translate(-50%, 80%);
+	}
+
+	.card .duck__foot--1 {
+		animation: foot-ans var(--base-speed) linear infinite;
+	}
+
+	.card .duck__foot--2 {
+		animation: foot-ans var(--base-speed) calc(var(--base-speed) / 2) linear infinite;
+	}
+
+	.card .surface {
+		position: absolute;
+		bottom: -1.9rem;
+		left: 55%;
+		transform: translateX(-50%);
+		background-color: rgba(0, 0, 0, 0.2);
+		width: 8rem;
+		height: 0.5rem;
+		border-radius: 1rem;
+		animation: surface-animation calc(var(--base-speed) / 2) linear infinite;
+		filter: blur(2px);
+	}
+
+	.card .orb {
+		position: absolute;
+		border-radius: 50%;
+		background-color: rgba(255, 255, 255, 0.05);
+		backdrop-filter: blur(5px);
+		animation: orb-animation 8s linear infinite;
+	}
+
+	.card:hover .orb {
+		width: 150px !important;
+		height: 2px !important;
+		border-radius: 2px;
+		background-color: rgba(255, 255, 255, 0.2);
+		animation-duration: 0.5s;
+	}
+
+	.card .orb--1 {
+		top: 10%;
+		width: 40px;
+		height: 40px;
+		animation-delay: 0s;
+	}
+
+	.card .orb--2 {
+		top: 30%;
+		width: 20px;
+		height: 20px;
+		animation-delay: -2s;
+	}
+
+	.card .orb--3 {
+		top: 60%;
+		width: 60px;
+		height: 60px;
+		animation-delay: -4s;
+	}
+
+	@keyframes bird-up-down {
 		0%, 100% {
-			transform: scale(1);
+			transform: translateY(0);
 		}
 		50% {
-			transform: scale(1.05);
+			transform: translateY(-8px);
+		}
+	}
+
+	@keyframes wing-animation {
+		0%, 100% {
+			transform: translate(0, -50%) rotate(0deg);
+		}
+		50% {
+			transform: translate(-5px, -50%) rotate(20deg);
+		}
+	}
+
+	@keyframes foot-ans {
+		0%, 100% {
+			transform: translate(-50%, 80%) rotate(0deg);
+		}
+		50% {
+			transform: translate(-50%, 70%) rotate(10deg);
+		}
+	}
+
+	@keyframes surface-animation {
+		0%, 100% {
+			transform: translateX(-50%) scaleX(1);
+			opacity: 0.5;
+		}
+		50% {
+			transform: translateX(-50%) scaleX(1.2);
+			opacity: 0.8;
+		}
+	}
+
+	@keyframes orb-animation {
+		0% {
+			transform: translateX(-100%) rotate(0deg);
+		}
+		100% {
+			transform: translateX(600px) rotate(360deg);
+		}
+	}
+
+	@keyframes eye-animation {
+		0%, 100% {
+			transform: scaleY(1);
+		}
+		50% {
+			transform: scaleY(0.3);
+		}
+	}
+
+	@media (max-width: 480px) {
+		.card .error-code {
+			font-size: 7rem;
+		}
+
+		.card .error-msg {
+			font-size: 1.2rem;
 		}
 	}
 </style>
