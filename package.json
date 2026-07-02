@@ -5,13 +5,19 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "npm run build && wrangler dev",
     "astro": "astro",
-    "setup-images": "node scripts/setup-free-images.js"
+    "setup-images": "node scripts/setup-free-images.js",
+    "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/cloudflare": "12",
     "astro": "^5.17.1",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "wrangler": "^4.107.0"
   }
 }
