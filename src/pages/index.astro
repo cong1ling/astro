@@ -1,27 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import FluidBackground from '../components/FluidBackground.astro';
 
-const heroSlides = [
-	{
-		image: 'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/1772425306302-ly5qg9.png',
-		quote: '运筹帷幄之中，决胜千里之外',
-		alt: '首页背景图：沉浸式主视觉'
-	},
-	{
-		image: '/images/望云少女_铁道道口.jpg',
-		quote: '山高路远，见世界，也见自己',
-		alt: '首页背景图：望云少女与铁道道口'
-	},
-	{
-		image: 'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/%E6%98%9F%E7%A9%BA%E4%B8%8B%E7%9A%84%E6%A2%A6%E5%B9%BB%E5%B0%91%E5%A5%B3.png',
-		quote: '在霓虹与代码之间，也要保留热爱',
-		alt: '首页背景图：星空下的梦想少女'
-	},
-	{
-		image: 'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/%E4%BA%8C%E6%AC%A1%E5%85%83-%E5%80%92%E5%BD%B1.png',
-		quote: '愿每一次出发，都能抵达心中所向',
-		alt: '首页背景图：二次元-倒立'
-	}
+const heroQuotes = [
+	'运筹帷幄之中，决胜千里之外',
+	'山高路远，见世界，也见自己',
+	'在霓虹与代码之间，也要保留热爱',
+	'愿每一次出发，都能抵达心中所向'
 ];
 ---
 
@@ -29,23 +14,12 @@ const heroSlides = [
 	<main>
 		<!-- 全屏沉浸式 Hero -->
 		<div class="immersive-hero" data-hero-carousel>
-			<div class="hero-bg">
-				{heroSlides.map((slide, index) => (
-					<div
-						class={`hero-image-layer${index === 0 ? ' is-active' : ''}`}
-						style={`--hero-bg-image: url('${slide.image}')`}
-						data-hero-slide
-						aria-hidden={index === 0 ? 'false' : 'true'}
-						role="img"
-						aria-label={slide.alt}
-					></div>
-				))}
-				<div class="hero-gradient-overlay"></div>
-			</div>
+			<FluidBackground />
+			<div class="hero-gradient-overlay"></div>
 			
 			<div class="hero-content-wrapper">
 				<div class="hero-avatar">
-					<img src="https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/1772426717500-4io3hz.jpg" alt="Avatar" />
+					<img src="https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/1772426717500-4io3hz.jpg" alt="Avatar" draggable="false" />
 					<div class="avatar-ring"></div>
 				</div>
 				
@@ -56,13 +30,13 @@ const heroSlides = [
 				
 				<div class="hero-description">
 					<div class="hero-quote-carousel" aria-live="polite">
-						{heroSlides.map((slide, index) => (
+						{heroQuotes.map((quote, index) => (
 							<p
 								class={`hero-quote-item${index === 0 ? ' is-active' : ''}`}
 								data-hero-quote
 								aria-hidden={index === 0 ? 'false' : 'true'}
 							>
-								{slide.quote}
+								{quote}
 							</p>
 						))}
 					</div>
@@ -88,31 +62,7 @@ const heroSlides = [
 					</a>
 				</div>
 
-				<div class="hero-carousel-controls" aria-label="首页背景轮播控制">
-					<button class="hero-control hero-control-prev" type="button" aria-label="上一张背景图" data-hero-prev>
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<polyline points="15 18 9 12 15 6"></polyline>
-						</svg>
-					</button>
-					<div class="hero-carousel-dots" role="tablist" aria-label="首页背景轮播分页">
-						{heroSlides.map((slide, index) => (
-							<button
-								type="button"
-								class={`hero-dot${index === 0 ? ' is-active' : ''}`}
-								data-hero-dot
-								data-index={index}
-								aria-label={`切换到第 ${index + 1} 张背景图`}
-								aria-selected={index === 0 ? 'true' : 'false'}
-								role="tab"
-							></button>
-						))}
-					</div>
-					<button class="hero-control hero-control-next" type="button" aria-label="下一张背景图" data-hero-next>
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-							<polyline points="9 18 15 12 9 6"></polyline>
-						</svg>
-					</button>
-				</div>
+				
 
 				<div class="scroll-indicator">
 					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -276,40 +226,6 @@ const heroSlides = [
 		overflow: hidden;
 	}
 
-	.hero-bg {
-		position: absolute;
-		inset: 0;
-		z-index: 0;
-	}
-
-	.hero-image-layer {
-		position: absolute;
-		inset: 0;
-		background-image: var(--hero-bg-image);
-		background-position: center;
-		background-size: cover;
-		background-repeat: no-repeat;
-		opacity: 0;
-		transform: scale(1.02);
-		transition: opacity 0.9s ease, transform 6s ease;
-		animation: hero-ken-burns 18s ease-in-out infinite alternate;
-		will-change: opacity, transform;
-	}
-
-	.hero-image-layer.is-active {
-		opacity: 1;
-		transform: scale(1.08);
-	}
-
-	@keyframes hero-ken-burns {
-		0% {
-			transform: scale(1.02) translateX(0) translateY(0);
-		}
-		100% {
-			transform: scale(1.1) translateX(-18px) translateY(-10px);
-		}
-	}
-
 	.hero-gradient-overlay {
 		position: absolute;
 		inset: 0;
@@ -359,6 +275,9 @@ const heroSlides = [
 		height: 104px;
 		margin: 0 auto 1.5rem;
 		animation: float 3s ease-in-out infinite;
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-touch-callout: none;
 	}
 
 	@keyframes float {
@@ -373,6 +292,10 @@ const heroSlides = [
 		object-fit: cover;
 		border: 4px solid rgba(255, 255, 255, 0.3);
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-user-drag: none;
+		-webkit-touch-callout: none;
 	}
 
 	.avatar-ring {
@@ -397,6 +320,11 @@ const heroSlides = [
 	/* 标题 */
 	.hero-title {
 		margin: 0 0 1rem 0;
+		color: #fff;
+		mix-blend-mode: difference;
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-touch-callout: none;
 	}
 
 	.title-main {
@@ -447,13 +375,17 @@ const heroSlides = [
 		font-weight: 700;
 		letter-spacing: 0.08em;
 		line-height: 1.5;
-		color: rgba(255, 255, 255, 0.96);
+		color: #fff;
 		text-align: center;
+		mix-blend-mode: difference;
 		text-shadow:
 			0 2px 6px rgba(0, 0, 0, 0.32),
 			0 8px 24px rgba(37, 99, 235, 0.18);
 			transition: opacity 0.6s ease, transform 0.6s ease;
 		pointer-events: none;
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-touch-callout: none;
 	}
 
 	.hero-quote-item.is-active {
@@ -556,8 +488,24 @@ const heroSlides = [
 		bottom: 1.25rem;
 		left: 50%;
 		transform: translateX(-50%);
+		color: #fff;
+		mix-blend-mode: difference;
 		animation: bounce 2s ease-in-out infinite;
 		opacity: 0.8;
+	}
+
+	@supports not (mix-blend-mode: difference) {
+		.hero-title,
+		.hero-quote-item,
+		.scroll-indicator {
+			color: #0f172a;
+		}
+
+		html[data-theme='dark'] .hero-title,
+		html[data-theme='dark'] .hero-quote-item,
+		html[data-theme='dark'] .scroll-indicator {
+			color: #fff;
+		}
 	}
 
 	@keyframes bounce {
@@ -1023,17 +971,16 @@ const heroSlides = [
 </style>
 
 <script is:inline>
-	// Hero 轮播
+	/**
+	 * Hero 语录轮播
+	 * 背景改为流体动画，只保留语录的轮播切换
+	 */
 	const heroCarousel = document.querySelector('[data-hero-carousel]');
 	const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 	if (heroCarousel) {
-		const slides = Array.from(heroCarousel.querySelectorAll('[data-hero-slide]'));
 		const quotes = Array.from(heroCarousel.querySelectorAll('[data-hero-quote]'));
-		const dots = Array.from(heroCarousel.querySelectorAll('[data-hero-dot]'));
-		const prevButton = heroCarousel.querySelector('[data-hero-prev]');
-		const nextButton = heroCarousel.querySelector('[data-hero-next]');
-		const total = slides.length;
+		const total = quotes.length;
 		let currentIndex = 0;
 		let autoplayId;
 		const autoplayDelay = 5500;
@@ -1041,22 +988,10 @@ const heroSlides = [
 		const setActiveSlide = (index) => {
 			currentIndex = (index + total) % total;
 
-			slides.forEach((slide, slideIndex) => {
-				const isActive = slideIndex === currentIndex;
-				slide.classList.toggle('is-active', isActive);
-				slide.setAttribute('aria-hidden', String(!isActive));
-			});
-
 			quotes.forEach((quote, quoteIndex) => {
 				const isActive = quoteIndex === currentIndex;
 				quote.classList.toggle('is-active', isActive);
 				quote.setAttribute('aria-hidden', String(!isActive));
-			});
-
-			dots.forEach((dot, dotIndex) => {
-				const isActive = dotIndex === currentIndex;
-				dot.classList.toggle('is-active', isActive);
-				dot.setAttribute('aria-selected', String(isActive));
 			});
 		};
 
@@ -1073,20 +1008,6 @@ const heroSlides = [
 				setActiveSlide(currentIndex + 1);
 			}, autoplayDelay);
 		};
-
-		const handleManualNavigation = (index) => {
-			setActiveSlide(index);
-			startAutoplay();
-		};
-
-		prevButton?.addEventListener('click', () => handleManualNavigation(currentIndex - 1));
-		nextButton?.addEventListener('click', () => handleManualNavigation(currentIndex + 1));
-		dots.forEach((dot, index) => {
-			dot.addEventListener('click', () => handleManualNavigation(index));
-		});
-
-		heroCarousel.addEventListener('mouseenter', stopAutoplay);
-		heroCarousel.addEventListener('mouseleave', startAutoplay);
 
 		setActiveSlide(0);
 		startAutoplay();

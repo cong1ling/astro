@@ -276,39 +276,52 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script is:inline>
-	// 加载单张图片
-	async function loadPicture(imageId, loadingId) {
+	/**
+	 * 加载单张图片（带重试机制）
+	 * @param {string} imageId - img元素的ID
+	 * @param {string} loadingId - 加载遮罩的ID
+	 * @param {number} maxRetries - 最大重试次数
+	 * @param {number} retryDelay - 重试延迟（毫秒）
+	 */
+	async function loadPicture(imageId, loadingId, maxRetries = 5, retryDelay = 3000) {
 		const image = document.getElementById(imageId);
 		const loading = document.getElementById(loadingId);
 
-		try {
-			// 使用动漫图片API
-			const response = await fetch('https://api.waifu.pics/sfw/waifu');
-			const data = await response.json();
-			
-			if (data.url) {
-				image.src = data.url;
-				image.onload = () => {
-					loading.style.display = 'none';
-				};
-				image.onerror = () => {
-					throw new Error('图片加载失败');
-				};
+		async function fetchWithRetry(attempt) {
+			try {
+				const response = await fetch('https://api.waifu.pics/sfw/waifu');
+				if (!response.ok) {
+					throw new Error(`HTTP ${response.status}`);
+				}
+				const data = await response.json();
+				
+				if (data.url) {
+					image.src = data.url;
+					image.onload = () => {
+						loading.style.display = 'none';
+					};
+					image.onerror = () => {
+						if (attempt < maxRetries) {
+							console.warn(`图片加载失败，正在重试 (${attempt}/${maxRetries})`);
+							setTimeout(() => fetchWithRetry(attempt + 1), retryDelay * attempt);
+						} else {
+							console.error('图片加载失败，已达到最大重试次数');
+						}
+					};
+				} else {
+					throw new Error('API返回数据格式错误');
+				}
+			} catch (error) {
+				console.warn(`获取图片失败 (${attempt}/${maxRetries}):`, error.message);
+				if (attempt < maxRetries) {
+					setTimeout(() => fetchWithRetry(attempt + 1), retryDelay * attempt);
+				} else {
+					console.error('获取图片失败，已达到最大重试次数');
+				}
 			}
-		} catch (error) {
-			console.error('加载图片失败:', error);
-			// 使用备用图片
-			const backupImages = [
-				'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/望云少女_铁道道口.jpg',
-				'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/樱花刀姬_水畔剪影.png',
-				'https://cdn.jsdelivr.net/gh/cong1ling/yanxizaomu-images@main/blog/img/霓虹都市里的蕾塞.png'
-			];
-			const index = parseInt(imageId.replace('dailyImage', '')) - 1;
-			image.src = backupImages[index];
-			image.onload = () => {
-				loading.style.display = 'none';
-			};
 		}
+
+		fetchWithRetry(1);
 	}
 
 	// 页面加载时获取三张图片

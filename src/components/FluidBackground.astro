@@ -1,0 +1,201 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div class={`fluid-background ${className}`} aria-hidden="true">
+	<canvas class="fluid-canvas" data-fluid-canvas></canvas>
+	<div class="fluid-shade"></div>
+</div>
+
+<style>
+	.fluid-background {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		overflow: hidden;
+		pointer-events: none;
+		background:
+			radial-gradient(circle at 18% 24%, rgba(56, 189, 248, 0.2), transparent 34%),
+			radial-gradient(circle at 76% 34%, rgba(244, 114, 182, 0.16), transparent 32%),
+			radial-gradient(circle at 52% 70%, rgba(250, 204, 21, 0.1), transparent 30%),
+			linear-gradient(135deg, #ffffff 0%, #fbfdff 48%, #ffffff 100%);
+	}
+
+	.fluid-canvas {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		display: block;
+		pointer-events: none;
+		background: #ffffff;
+		filter: saturate(1.42) contrast(1.14) brightness(1.03);
+	}
+
+	.fluid-shade {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background:
+			linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+			radial-gradient(circle at center, transparent 42%, rgba(226, 232, 240, 0.08) 100%);
+	}
+
+	html[data-theme='dark'] .fluid-background {
+		background: #000;
+	}
+
+	html[data-theme='dark'] .fluid-canvas {
+		background: #000;
+		filter: saturate(1.16) contrast(1.08);
+	}
+
+	html[data-theme='dark'] .fluid-shade {
+		background:
+			linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18)),
+			radial-gradient(circle at center, transparent 32%, rgba(0, 0, 0, 0.28) 100%);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.fluid-canvas {
+			display: none;
+		}
+
+		.fluid-background {
+			background:
+				radial-gradient(circle at 28% 30%, rgba(56, 189, 248, 0.24), transparent 34%),
+				radial-gradient(circle at 70% 38%, rgba(244, 114, 182, 0.18), transparent 32%),
+				radial-gradient(circle at 50% 70%, rgba(250, 204, 21, 0.12), transparent 30%),
+				#ffffff;
+		}
+
+		html[data-theme='dark'] .fluid-background {
+			background:
+				radial-gradient(circle at 28% 30%, rgba(56, 189, 248, 0.28), transparent 34%),
+				radial-gradient(circle at 70% 38%, rgba(244, 114, 182, 0.24), transparent 32%),
+				#000;
+		}
+	}
+</style>
+
+<script>
+	import WebGLFluid from 'webgl-fluid';
+	import {
+		dispatchFluidPointer,
+		shouldForwardFluidPointer,
+		shouldSettleFluidPointer
+	} from '../lib/fluidPointerBridge.js';
+
+	const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const canvas = document.querySelector('[data-fluid-canvas]');
+	const getInitialTheme = () => {
+		const storedTheme = window.localStorage?.getItem('theme');
+		if (storedTheme === 'dark' || storedTheme === 'light') return storedTheme;
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	};
+	const supportsWebGL = () => {
+		const probe = document.createElement('canvas');
+		return Boolean(
+			probe.getContext('webgl2') ||
+			probe.getContext('webgl') ||
+			probe.getContext('experimental-webgl')
+		);
+	};
+
+	if (canvas instanceof HTMLCanvasElement && !reducedMotion.matches) {
+		const fluidCanvas = canvas;
+		const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+		const isDark = getInitialTheme() === 'dark';
+
+		if (supportsWebGL()) {
+			WebGLFluid(fluidCanvas, {
+				SIM_RESOLUTION: isCoarsePointer ? 96 : 160,
+				DYE_RESOLUTION: isCoarsePointer ? 768 : 1536,
+				CAPTURE_RESOLUTION: 512,
+				DENSITY_DISSIPATION: isDark ? 0.985 : 0.992,
+				VELOCITY_DISSIPATION: isDark ? 0.18 : 0.22,
+				PRESSURE: 0.82,
+				PRESSURE_ITERATIONS: 24,
+				CURL: 34,
+				SPLAT_RADIUS: isCoarsePointer ? 0.18 : (isDark ? 0.22 : 0.18),
+				SPLAT_FORCE: isDark ? 7200 : 8200,
+				SPLAT_COUNT: isDark ? 4 : 9,
+				SHADING: true,
+				COLORFUL: true,
+				COLOR_UPDATE_SPEED: 8,
+				PAUSED: false,
+				BACK_COLOR: isDark ? { r: 0, g: 0, b: 0 } : { r: 255, g: 255, b: 255 },
+				TRANSPARENT: true,
+				BLOOM: true,
+				BLOOM_ITERATIONS: 8,
+				BLOOM_RESOLUTION: 256,
+				BLOOM_INTENSITY: isDark ? 0.72 : 0.5,
+				BLOOM_THRESHOLD: isDark ? 0.58 : 0.64,
+				BLOOM_SOFT_KNEE: isDark ? 0.68 : 0.54,
+				SUNRAYS: true,
+				SUNRAYS_RESOLUTION: 196,
+				SUNRAYS_WEIGHT: isDark ? 0.82 : 0.42,
+				IMMEDIATE: true,
+				TRIGGER: 'hover',
+				AUTO: false,
+				INTERVAL: isDark ? 3000 : 2200
+			});
+
+			const idleSettleDelay = 1400;
+			let lastFluidInputAt = 0;
+			let idleSettleTimer = 0;
+			const settleFluidPointer = () => {
+				idleSettleTimer = 0;
+				if (!shouldSettleFluidPointer(lastFluidInputAt, Date.now(), idleSettleDelay)) return;
+				window.dispatchEvent(new MouseEvent('mouseup'));
+			};
+			const markFluidInput = () => {
+				lastFluidInputAt = Date.now();
+				if (idleSettleTimer) window.clearTimeout(idleSettleTimer);
+				idleSettleTimer = window.setTimeout(settleFluidPointer, idleSettleDelay + 60);
+			};
+			const handlePointerMove: EventListener = (event) => {
+				if (!(event instanceof MouseEvent)) return;
+				if (dispatchFluidPointer(fluidCanvas, event, 'mousemove')) markFluidInput();
+			};
+			const handlePointerDown: EventListener = (event) => {
+				if (!(event instanceof MouseEvent)) return;
+				if (dispatchFluidPointer(fluidCanvas, event, 'mousedown')) markFluidInput();
+			};
+			const handlePointerUp: EventListener = (event) => {
+				if (!(event instanceof MouseEvent)) return;
+				const pointerType =
+					'pointerType' in event && typeof event.pointerType === 'string'
+						? event.pointerType
+						: '';
+				if (pointerType === 'mouse') return;
+				if (!shouldForwardFluidPointer(pointerType)) return;
+				window.dispatchEvent(new MouseEvent('mouseup'));
+			};
+			const bridgeEvents: Array<[keyof WindowEventMap, EventListener]> = 'PointerEvent' in window
+				? [
+					['pointermove', handlePointerMove],
+					['pointerdown', handlePointerDown],
+					['pointerup', handlePointerUp],
+					['pointercancel', handlePointerUp]
+				]
+				: [
+					['mousemove', handlePointerMove],
+					['mousedown', handlePointerDown]
+				];
+			bridgeEvents.forEach(([eventName, handler]) => {
+				window.addEventListener(eventName, handler, { passive: true });
+			});
+			window.addEventListener('pagehide', () => {
+				bridgeEvents.forEach(([eventName, handler]) => {
+					window.removeEventListener(eventName, handler);
+				});
+				if (idleSettleTimer) window.clearTimeout(idleSettleTimer);
+			}, { once: true });
+		}
+	}
+</script>
