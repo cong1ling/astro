@@ -1,3 +1,3 @@
 name = "astro"
-main = "./dist/_worker.js/index.js"
+pages_build_output_dir = "./dist"
 compatibility_date = "2025-07-10"
