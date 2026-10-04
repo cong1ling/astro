@@ -496,129 +496,80 @@ const regularPosts = postsWithReadingTime;
 <script is:inline>
 	const POSTS_PER_PAGE = 5;
 	let currentPage = 1;
-	let totalPages = 1;
-	let allPosts = [];
+	let searchTerm = '';
 
-	// 分页功能
-	function initPagination() {
-		const postCards = document.querySelectorAll('.post-card');
-		allPosts = Array.from(postCards);
-		totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
-		
-		updatePaginationUI();
-		showPage(1);
+	const allCards = Array.from(document.querySelectorAll('.post-card'));
+	const searchInput = document.getElementById('searchInput');
+	const clearSearchBtn = document.getElementById('clearSearch');
+	const prevBtn = document.getElementById('prevBtn');
+	const nextBtn = document.getElementById('nextBtn');
+	const currentPageEl = document.getElementById('currentPage');
+	const totalPagesEl = document.getElementById('totalPages');
+	const pagination = document.getElementById('pagination');
+	const postsGrid = document.getElementById('postsGrid');
+
+	function getFilteredCards() {
+		if (!searchTerm) return allCards;
+		return allCards.filter((card) => {
+			const title = card.dataset.title || '';
+			const tags = card.dataset.tags || '';
+			const description = card.dataset.description || '';
+			return title.includes(searchTerm) || tags.includes(searchTerm) || description.includes(searchTerm);
+		});
 	}
 
-	function showPage(page) {
-		const startIndex = (page - 1) * POSTS_PER_PAGE;
-		const endIndex = startIndex + POSTS_PER_PAGE;
+	function render(scroll = false) {
+		const filtered = getFilteredCards();
+		const totalPages = Math.max(1, Math.ceil(filtered.length / POSTS_PER_PAGE));
+		currentPage = Math.min(currentPage, totalPages);
 
-		allPosts.forEach((post, index) => {
-			if (index >= startIndex && index < endIndex) {
-				post.style.display = '';
-				post.style.opacity = '0';
-				setTimeout(() => {
-					post.style.opacity = '1';
-				}, (index - startIndex) * 50);
-			} else {
-				post.style.display = 'none';
-			}
+		const start = (currentPage - 1) * POSTS_PER_PAGE;
+		const end = start + POSTS_PER_PAGE;
+		const visible = new Set(filtered.slice(start, end));
+
+		allCards.forEach((card) => {
+			card.style.display = visible.has(card) ? '' : 'none';
 		});
 
-		currentPage = page;
-		updatePaginationUI();
-		
-		// 滚动到文章列表顶部
-		const postsGrid = document.getElementById('postsGrid');
-		if (postsGrid) {
+		if (currentPageEl) currentPageEl.textContent = currentPage;
+		if (totalPagesEl) totalPagesEl.textContent = totalPages;
+		if (prevBtn) prevBtn.disabled = currentPage <= 1;
+		if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
+		if (pagination) pagination.style.display = totalPages <= 1 ? 'none' : 'flex';
+
+		if (scroll && postsGrid) {
 			postsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
 		}
 	}
 
-	function updatePaginationUI() {
-		const currentPageEl = document.getElementById('currentPage');
-		const totalPagesEl = document.getElementById('totalPages');
-		const prevBtn = document.getElementById('prevBtn');
-		const nextBtn = document.getElementById('nextBtn');
-		const pagination = document.getElementById('pagination');
-
-		if (currentPageEl) currentPageEl.textContent = currentPage;
-		if (totalPagesEl) totalPagesEl.textContent = totalPages;
-		
-		if (prevBtn) prevBtn.disabled = currentPage <= 1;
-		if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
-		
-		// 如果只有一页或没有文章，隐藏分页
-		if (pagination) {
-			pagination.style.display = totalPages <= 1 ? 'none' : 'flex';
-		}
-	}
-
-	// 绑定分页按钮事件
-	const prevBtn = document.getElementById('prevBtn');
-	const nextBtn = document.getElementById('nextBtn');
-
 	if (prevBtn) {
 		prevBtn.addEventListener('click', () => {
 			if (currentPage > 1) {
-				showPage(currentPage - 1);
+				currentPage--;
+				render(true);
 			}
 		});
 	}
 
 	if (nextBtn) {
 		nextBtn.addEventListener('click', () => {
+			const totalPages = Math.max(1, Math.ceil(getFilteredCards().length / POSTS_PER_PAGE));
 			if (currentPage < totalPages) {
-				showPage(currentPage + 1);
+				currentPage++;
+				render(true);
 			}
 		});
 	}
 
-	// 初始化分页
-	initPagination();
-
-	// 搜索功能
-	const searchInput = document.getElementById('searchInput');
-	const clearSearchBtn = document.getElementById('clearSearch');
-	const postsGrid = document.getElementById('postsGrid');
-
-	if (searchInput && postsGrid && allPosts.length > 0) {
-		searchInput.addEventListener('input', function(e) {
-			const searchTerm = e.target.value.toLowerCase().trim();
-			
-			allPosts.forEach(card => {
-				const title = card.dataset.title || '';
-				const tags = card.dataset.tags || '';
-				const description = card.dataset.description || '';
-				
-				const matchesTitle = title.includes(searchTerm);
-				const matchesTags = tags.includes(searchTerm);
-				const matchesDescription = description.includes(searchTerm);
-				
-				if (searchTerm === '' || matchesTitle || matchesTags || matchesDescription) {
-					card.dataset.matchSearch = 'true';
-				} else {
-					card.dataset.matchSearch = 'false';
-				}
-			});
-
-			// 更新搜索结果的总页数
-			const matchedPosts = allPosts.filter(p => p.dataset.matchSearch !== 'false');
-			totalPages = Math.ceil(matchedPosts.length / POSTS_PER_PAGE);
-			
-			// 显示第一页搜索结果
-			showSearchResults(1, searchTerm);
-
-			clearSearchBtn.style.display = searchTerm ? 'flex' : 'none';
+	if (searchInput) {
+		searchInput.addEventListener('input', (e) => {
+			searchTerm = e.target.value.toLowerCase().trim();
+			currentPage = 1;
+			render();
+			if (clearSearchBtn) clearSearchBtn.style.display = searchTerm ? 'flex' : 'none';
 		});
 
-		clearSearchBtn.addEventListener('click', function() {
-			searchInput.value = '';
-			searchInput.dispatchEvent(new Event('input'));
-			searchInput.focus();
-		});
-
-		searchInput.addEventListener('keydown', function(e) {
+		searchInput.addEventListener('keydown', (e) => {
 			if (e.key === 'Escape') {
 				searchInput.value = '';
 				searchInput.dispatchEvent(new Event('input'));
@@ -626,24 +577,13 @@ const regularPosts = postsWithReadingTime;
 		});
 	}
 
-	function showSearchResults(page, searchTerm) {
-		const matchedPosts = allPosts.filter(p => p.dataset.matchSearch !== 'false');
-		const startIndex = (page - 1) * POSTS_PER_PAGE;
-		const endIndex = startIndex + POSTS_PER_PAGE;
-
-		allPosts.forEach((post, index) => {
-			const isMatch = post.dataset.matchSearch !== 'false';
-			const isInPage = matchedPosts.indexOf(post) >= startIndex && matchedPosts.indexOf(post) < endIndex;
-			
-			if (isMatch && isInPage) {
-				post.style.display = '';
-				post.style.opacity = '1';
-			} else {
-				post.style.display = 'none';
-			}
+	if (clearSearchBtn) {
+		clearSearchBtn.addEventListener('click', () => {
+			searchInput.value = '';
+			searchInput.dispatchEvent(new Event('input'));
+			searchInput.focus();
 		});
-
-		currentPage = page;
-		updatePaginationUI();
 	}
+
+	render();
 </script>
