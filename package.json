@@ -7,6 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "deploy": "astro build && node scripts/fix-routes.mjs && wrangler pages deploy",
+    "postinstall": "node scripts/patch-astro-image.mjs",
     "setup-images": "node scripts/setup-free-images.js"
   },
   "dependencies": {
