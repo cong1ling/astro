@@ -13,6 +13,8 @@ export default defineConfig({
   integrations: [sitemap()],
   image: {
     domains: ['images.cloudflare.com', 'cdn.jsdelivr.net'],
+    // 使用 passthrough 服务，不优化远程图片，避免图片引用解析错误
+    service: { entrypoint: 'astro/assets/services/passthrough' },
   },
   markdown: {
     shikiConfig: {
