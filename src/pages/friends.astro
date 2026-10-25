@@ -32,6 +32,13 @@ import Layout from '../layouts/Layout.astro';
 						<p class="friend-desc">七月初七，淮水竹亭</p>
 					</div>
 				</a>
+				<a href="https://www.zhihailib.com" target="_blank" class="friend-card">
+					<img src="https://www.zhihailib.com/wp-content/uploads/2025/04/favicon_z.png" alt="知海图书馆" class="friend-avatar" />
+					<div class="friend-info">
+						<h3 class="friend-name">知海图书馆</h3>
+						<p class="friend-desc">干净的中文电子书站，可按书名、作者、出版社、ISBN 精确找书，能在线读，没有弹窗广告，还有按阶段整理的导读书单。</p>
+					</div>
+				</a>
 			</div>
 			
 			<h2 class="section-title" style="margin-top: 2rem;">
@@ -170,9 +177,13 @@ import Layout from '../layouts/Layout.astro';
 		font-size: 0.9rem;
 		color: var(--c-text-light);
 		margin: 0;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
 		overflow: hidden;
 		text-overflow: ellipsis;
-		white-space: nowrap;
+		word-break: break-word;
+		line-height: 1.4;
 	}
 	
 	.placeholder-card {
